@@ -23,6 +23,10 @@ const dishSchema = new mongoose.Schema({
   specialDescription: {
     type: String,
     trim: true
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Store'
   }
 });
 

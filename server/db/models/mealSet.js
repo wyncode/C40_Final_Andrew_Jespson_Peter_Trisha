@@ -33,6 +33,10 @@ const mealSetSchema = new mongoose.Schema({
   },
   allergenInfo: {
     type: String
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Store'
   }
 });
 
