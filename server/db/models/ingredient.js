@@ -9,7 +9,7 @@ const ingredientSchema = new mongoose.Schema({
     type: String,
     required: { allergens } ? true : false
   },
-  ingredients: [
+  ingredientName: [
     {
       type: String,
       required: true
