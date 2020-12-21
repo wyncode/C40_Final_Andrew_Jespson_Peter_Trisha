@@ -42,11 +42,11 @@ const StoreSchema = new Schema(
       type: Boolean
     },
     serviceMenu: {
-      type: mongoose.Schema.Type.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Dish'
     },
     themedMealSet: {
-      type: mongoose.Schema.Type.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'MealSet'
     },
     availabilityCalender: {
@@ -57,17 +57,23 @@ const StoreSchema = new Schema(
     },
     Bio: {
       type: String,
+      required: true,
+      maxlength: 250,
       required: true
     },
-    Instagram: {
-      type: String
-    },
-    Facebook: {
-      type: String
-    },
-    Twitter: {
-      type: String
-    },
+    socialHandle: [
+      {
+        Instagram: {
+          type: String
+        },
+        Facebook: {
+          type: String
+        },
+        Twitter: {
+          type: String
+        }
+      }
+    ],
     Website: {
       type: String
     },
@@ -93,12 +99,6 @@ const StoreSchema = new Schema(
   },
   { timestamps: true }
 );
-
-storeSchema.methods.toJSON = function () {
-  const store = this;
-  const storeObject = store.toObject();
-  return storeObject;
-};
 
 const Store = mongoose.model('Store', StoreSchema);
 module.exports = Store;
