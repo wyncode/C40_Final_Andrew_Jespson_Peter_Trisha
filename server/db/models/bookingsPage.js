@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const bookingsPageSchema = new Schema(
   {
     isPrefixed: { type: Boolean, required: true, trim: true },
-    cartItems: { type: Object, default: null },
+    cartItems: [{ type: ObjectId, ref: 'Dish', default: null }],
     itemQuantity: { type: Number, required: true, default: 0 },
-    mealSetSelection: { type: Object },
+    mealSetSelection: [{ type: ObjectId, ref: 'MealSet' }],
     numberofPeople: { type: Number, required: true, default: 1 },
     deliveryFee: { type: Number, default: true },
     totalCost: { type: Number },
