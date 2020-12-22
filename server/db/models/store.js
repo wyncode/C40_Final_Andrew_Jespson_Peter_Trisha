@@ -22,12 +22,8 @@ const StoreSchema = new Schema(
       type: Number,
       required: true
     },
-    customerRating: {
-      type: Array,
-      required: true
-    },
     priceRange: {
-      type: Array,
+      type: String,
       required: true
     },
     deliveryFee: {
@@ -41,19 +37,20 @@ const StoreSchema = new Schema(
     specialRequests: {
       type: Boolean
     },
-    serviceMenu: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Dish'
-    },
-    themedMealSet: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'MealSet'
-    },
+    serviceMenu: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Dish'
+      }
+    ],
+    themedMealSet: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MealSet'
+      }
+    ],
     availabilityCalender: {
       type: Object
-    },
-    reviewsSection: {
-      type: Array
     },
     Bio: {
       type: String,
@@ -83,9 +80,11 @@ const StoreSchema = new Schema(
     specializedCertifications: {
       type: String
     },
-    mediaGallery: {
-      type: Object
-    },
+    mediaGallery: [
+      {
+        type: String
+      }
+    ],
     careerHighlights: {
       type: String
     },
