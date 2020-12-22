@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    isChef: {
+    chef: {
       type: Boolean,
       required: true,
       default: false
@@ -22,7 +22,7 @@ const userSchema = new Schema(
       required: true,
       trim: true
     },
-    Email: {
+    email: {
       type: String,
       unique: true,
       required: true,
@@ -34,7 +34,7 @@ const userSchema = new Schema(
         }
       }
     },
-    Password: {
+    password: {
       type: String,
       required: true,
       trim: true,
@@ -47,6 +47,14 @@ const userSchema = new Schema(
         }
       }
     },
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true
+        }
+      }
+    ],
     phoneNumber: {
       type: String,
       validate: {
@@ -55,10 +63,10 @@ const userSchema = new Schema(
         },
         message: (props) => `${props.value} is not a valid phone number!`
       },
-      required: [true, 'User phone number required'],
+      //required: [true, 'User phone number required'],
       unique: true
     },
-    Address: {
+    address: {
       street: String,
       city: String,
       state: {
@@ -70,28 +78,27 @@ const userSchema = new Schema(
       zip: Number
     },
     dateOfBirth: {
-      type: Number,
-      required: true
+      type: Number
+      //required: true
     },
     servSafeCertification: {
-      type: Boolean,
-      required: { isChef } ? true : false
+      type: Boolean
     },
     securityQuestion: {
-      type: String,
-      required: true
+      type: String
+      //required: true
     },
     securityQuestionAnswer: {
-      type: String,
-      required: true
+      type: String
+      //required: true
     },
     emailPromotion: {
-      type: Boolean,
-      required: true
+      type: Boolean
+      //required: true
     },
     textPromotion: {
-      type: Boolean,
-      required: true
+      type: Boolean
+      //required: true
     }
   },
   { timestamps: true }
@@ -124,7 +131,7 @@ userSchema.methods.toJSON = function () {
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign(
-    { _id: user._id.toString(), name: user.name },
+    { _id: user._id.toString(), name: user.firstName },
     process.env.JWT_SECRET,
     { expiresIn: '24h' }
   );

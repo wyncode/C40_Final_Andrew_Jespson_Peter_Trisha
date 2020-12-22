@@ -1,12 +1,14 @@
-const User = require('../db/models/');
+const User = require('../db/models/user');
 
 exports.createUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, password, address } = req.body;
   try {
     const user = new User({
-      name,
+      firstName,
+      lastName,
       email,
-      password
+      password,
+      address
     });
     const token = await user.generateAuthToken();
     res.cookie('jwt', token, {
@@ -71,13 +73,3 @@ exports.passwordRedirect = async (req, res) => {
     res.json({ error: e.toString() });
   }
 };
-
-// JUST FOR DEMO PURPOSES, PUT YOUR ACTUAL API CODE HERE
-router.get('/api/demo', (request, response) => {
-  response.json({
-    message: 'Hello from server.js'
-  });
-});
-// END DEMO
-
-module.exports = router;
