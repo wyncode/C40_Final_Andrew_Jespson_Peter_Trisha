@@ -6,8 +6,9 @@ const router = require('express').Router(),
     passwordRedirect
   } = require('../../controllers/users');
 
-// JUST FOR DEMO PURPOSES, PUT YOUR ACTUAL API CODE HERE
 router.post('/', createUser);
-// END DEMO
+router.post('/login', loginUser);
+router.get('/password', requestPasswordReset);
+router.get('/password/:token', passwordRedirect);
 
 module.exports = router;
