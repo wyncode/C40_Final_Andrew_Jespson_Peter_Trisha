@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Unauthenticated routes
-app.use(openRoutes);
+app.use('/api/users', openRoutes);
 
 // Serve any static files
 if (process.env.NODE_ENV === 'production') {
