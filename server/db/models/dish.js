@@ -7,6 +7,12 @@ const dishSchema = new mongoose.Schema({
     trim: true,
     text: true
   },
+  slug: {
+    type: String,
+    //unique: true,
+    lowercase: true,
+    index: true
+  },
   price: {
     type: Number,
     required: true,
