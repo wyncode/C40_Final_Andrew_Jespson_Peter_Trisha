@@ -4,12 +4,14 @@ const dishSchema = new mongoose.Schema({
   dishName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    text: true
   },
   price: {
     type: Number,
     required: true,
-    trim: true
+    trim: true,
+    text: true
   },
   image: {
     type: String,
@@ -24,11 +26,13 @@ const dishSchema = new mongoose.Schema({
   ],
   specialDescription: {
     type: String,
-    trim: true
+    trim: true,
+    text: true
   },
-  owner: {
+  store: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Store'
+    ref: 'Store',
+    require: true
   }
 });
 

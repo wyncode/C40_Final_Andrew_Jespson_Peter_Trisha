@@ -7,11 +7,6 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    chef: {
-      type: Boolean,
-      required: true,
-      default: false
-    },
     firstName: {
       type: String,
       required: true,
@@ -55,6 +50,11 @@ const userSchema = new Schema(
         }
       }
     ],
+    role: {
+      type: String,
+      default: 'user',
+      enum: ['user', 'hcef', 'admin']
+    },
     phoneNumber: {
       type: String,
       validate: {
@@ -63,7 +63,7 @@ const userSchema = new Schema(
         },
         message: (props) => `${props.value} is not a valid phone number!`
       },
-      //required: [true, 'User phone number required'],
+      required: [true, 'User phone number required'],
       unique: true
     },
     address: {
@@ -81,9 +81,6 @@ const userSchema = new Schema(
       type: Number
       //required: true
     },
-    servSafeCertification: {
-      type: Boolean
-    },
     securityQuestion: {
       type: String
       //required: true
@@ -94,15 +91,15 @@ const userSchema = new Schema(
     },
     emailPromotion: {
       type: Boolean
-      //required: true
     },
     textPromotion: {
       type: Boolean
-      //required: true
     }
   },
   { timestamps: true }
 );
+
+//virtual relationship with store
 
 userSchema.virtual('store', {
   ref: 'Store',
@@ -131,7 +128,7 @@ userSchema.methods.toJSON = function () {
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign(
-    { _id: user._id.toString(), name: user.firstName },
+    { _id: user._id.toString(), role: user.role, name: user.firstName },
     process.env.JWT_SECRET,
     { expiresIn: '24h' }
   );
@@ -174,6 +171,7 @@ userSchema.pre('remove', async function (next) {
   await Store.deleteMany({
     owner: user._id
   });
+  next();
 });
 
 const User = mongoose.model('User', userSchema);
