@@ -2,22 +2,11 @@ const mongoose = require('mongoose'),
   validator = require('validator'),
   bcrypt = require('bcryptjs'),
   jwt = require('jsonwebtoken'),
-  Store = require('../models/store');
-const Schema = mongoose.Schema;
+  Store = require('./store');
 
-const userSchema = new Schema(
+const userSchema = new mongoose.Schema(
   {
-    chef: {
-      type: Boolean,
-      required: true,
-      default: false
-    },
-    firstName: {
-      type: String,
-      required: true,
-      trim: true
-    },
-    lastName: {
+    fullname: {
       type: String,
       required: true,
       trim: true
@@ -47,6 +36,11 @@ const userSchema = new Schema(
         }
       }
     },
+    role: {
+      type: String,
+      default: 'user',
+      enum: ['user', 'chef', 'admin']
+    },
     tokens: [
       {
         token: {
@@ -63,7 +57,7 @@ const userSchema = new Schema(
         },
         message: (props) => `${props.value} is not a valid phone number!`
       },
-      //required: [true, 'User phone number required'],
+      required: [true, 'User phone number required'],
       unique: true
     },
     address: {
@@ -78,8 +72,8 @@ const userSchema = new Schema(
       zip: Number
     },
     dateOfBirth: {
-      type: Number
-      //required: true
+      type: String,
+      required: true
     },
     servSafeCertification: {
       type: Boolean
@@ -99,9 +93,14 @@ const userSchema = new Schema(
     textPromotion: {
       type: Boolean
       //required: true
+    },
+    avatar: {
+      type: String
     }
   },
-  { timestamps: true }
+  {
+    timestamps: true
+  }
 );
 
 userSchema.virtual('store', {
@@ -123,6 +122,7 @@ userSchema.methods.toJSON = function () {
   delete userObject.tokens;
   return userObject;
 };
+
 /**
  * // This instance method will generate a user token
  * // and append it to the user.tokens array in the DB
@@ -131,14 +131,17 @@ userSchema.methods.toJSON = function () {
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign(
-    { _id: user._id.toString(), name: user.firstName },
+    { _id: user._id.toString(), name: user.name },
     process.env.JWT_SECRET,
     { expiresIn: '24h' }
   );
+
   user.tokens = user.tokens.concat({ token });
   await user.save();
+
   return token;
 };
+
 /**
  * // This static method will first find a user by email
  * // and then compare that users password with the
@@ -154,6 +157,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
   if (!isMatch) throw new Error('Unable to login.');
   return user;
 };
+
 /**
  * // This mongoose middleware will hash our user's passwords
  * // whenever a user is created or a user password is updated.
@@ -166,6 +170,7 @@ userSchema.pre('save', async function (next) {
   const user = this;
   if (user.isModified('password'))
     user.password = await bcrypt.hash(user.password, 8);
+
   next();
 });
 

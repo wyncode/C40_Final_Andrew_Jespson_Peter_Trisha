@@ -1,8 +1,7 @@
-exports.isChef = () => {
+exports.authRoles = (...roles) => {
   return (req, res, next) => {
-    if (!req.user.chef) {
-      return res.status(401).json({ error: 'access denied' });
+    if (!roles.includes(req.user.role)) {
+      return next(res.send(`${req.user.role} not authorized`).status(401));
     }
-    next();
   };
 };
