@@ -1,9 +1,11 @@
-const User = require('../db/models/user');
+const User = require('../db/models/user'),
+  jwt = require('jsonwebtoken');
 
 exports.createUser = async (req, res) => {
-  const { firstName, lastName, email, password, address } = req.body;
+  const { chef, firstName, lastName, email, password, address } = req.body;
   try {
     const user = new User({
+      chef,
       firstName,
       lastName,
       email,
