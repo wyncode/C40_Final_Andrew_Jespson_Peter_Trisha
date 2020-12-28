@@ -7,7 +7,7 @@ const {
   createMealSet,
   updateMealSet,
   deleteMealSet
-} = require('../controllers/mealSetController');
+} = require('../../controllers/mealSet');
 
 //Get all Meal Sets
 router.get('/', getAllMealSets);
