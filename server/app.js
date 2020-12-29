@@ -5,6 +5,7 @@ const express = require('express'),
   passport = require('./middleware/authentication'),
   cookieParser = require('cookie-parser'),
   openRoutes = require('./routes/open');
+mealSetRouter = require('./routes/secure/mealsetRoutes');
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use(morgan('dev'));
 
 // Unauthenticated routes
 app.use('/api/users', openRoutes);
-
+app.use(cookieParser());
 // Serve any static files
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
@@ -22,6 +23,7 @@ if (process.env.NODE_ENV === 'production') {
 
 // Any authentication middleware and related routing would be here.
 app.use('/api/*', passport.authenticate('jwt', { session: false }));
+app.use('/api/stores/mealsets', mealSetRouter);
 
 // Handle React routing, return all requests to React app
 if (process.env.NODE_ENV === 'production') {

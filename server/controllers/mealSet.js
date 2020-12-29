@@ -3,10 +3,11 @@ const MealSet = require('../db/models/mealSet');
 const mongoose = require('mongoose');
 
 exports.createMealSet = async (req, res) => {
+  console.log('hello');
   try {
     const mealSet = new MealSet({
       ...req.body
-      //   store: req.user._id
+      //   mealSet: req.users._id
     });
     await mealSet.save();
     res.status(201).json(mealSet);
@@ -15,18 +16,18 @@ exports.createMealSet = async (req, res) => {
   }
 };
 
-exports.getAllMealSets = async (req, res) => {
-  try {
-    const getAllMealSets = MealSet.find({});
-    res.send(getAllMealSets);
-  } catch (e) {
-    res.status(400).json({ error: e.toString() });
-  }
-};
+// exports.getAllMealSets = async (req, res) => {
+//   try {
+//     const getAllMealSets = MealSet.find({});
+//     res.send(getAllMealSets);
+//   } catch (e) {
+//     res.status(400).json({ error: e.toString() });
+//   }
+// };
 
 exports.getMealSet = async (req, res) => {
   try {
-    const mealSet = await MealSet.findOne({ id: req.params.id });
+    const mealSet = await MealSet.findOne({ _id: req.params.id });
     if (!mealSet) return res.status(404).send();
     res.json(mealSet);
   } catch (e) {
@@ -35,12 +36,16 @@ exports.getMealSet = async (req, res) => {
 };
 
 exports.updateMealSet = async (req, res) => {
+  const updates = Object.keys(req.body);
   try {
-    const updateMealSet = await MealSet.findByIdAndUpdate({
+    const mealSet = await MealSet.findByIdAndUpdate({
       ...req.body,
       _id: req.params.id
     });
-    res.json(updateMealSet);
+    if (!mealSet) return res.status(400).json({ error: 'meal set not found' });
+    updates.forEach((update) => (mealSet[update] = req.body[update]));
+    await mealSet.save();
+    res.json(mealSet);
   } catch (e) {
     res.status(400).json({ error: e.toString() });
   }
@@ -48,11 +53,10 @@ exports.updateMealSet = async (req, res) => {
 
 exports.deleteMealSet = async (req, res) => {
   try {
-    const deleteMealSet = await MealSet.findOneAndDelete({
+    const mealSet = await MealSet.findOneAndDelete({
       _id: req.params.id
     });
-    if (!deleteMealSet)
-      return res.status(404).json({ error: 'Meal not found' });
+    if (!mealSet) return res.status(404).json({ error: 'Meal not found' });
     res.json({ message: 'Meal has been deleted' });
   } catch (e) {
     res.status(500).json({ error: e.toString() });

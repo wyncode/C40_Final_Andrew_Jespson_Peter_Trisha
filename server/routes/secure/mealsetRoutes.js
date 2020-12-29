@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { isChef } = require('../../middleware/authorization');
 
 const {
-  getAllMealSets,
+  // getAllMealSets,
   getMealSet,
   createMealSet,
   updateMealSet,
@@ -10,13 +10,13 @@ const {
 } = require('../../controllers/mealSet');
 
 //Get all Meal Sets
-router.get('/', getAllMealSets);
+// router.get('/', getAllMealSets);
 //Get a single Meal Set using different queries in slug to find the set
 router.get('/:id', getMealSet);
 //Create a Meal Set
 router.post('/', isChef(), createMealSet);
 //Update a Meal Set using different queries in slug to find the set
-router.put('/slug', isChef(), updateMealSet);
+router.patch('/:id', isChef(), updateMealSet);
 //Delete a Meal Set
 router.delete('/:id', isChef(), deleteMealSet);
 

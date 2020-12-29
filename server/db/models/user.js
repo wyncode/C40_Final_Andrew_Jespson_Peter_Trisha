@@ -9,8 +9,7 @@ const userSchema = new Schema(
   {
     chef: {
       type: Boolean,
-      required: true,
-      default: false
+      required: true
     },
     firstName: {
       type: String,
