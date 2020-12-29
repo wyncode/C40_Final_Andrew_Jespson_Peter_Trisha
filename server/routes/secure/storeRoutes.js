@@ -4,7 +4,9 @@ const router = require('express').Router(),
     createStore,
     getMyStore,
     updateStore,
-    deleteStore
+    deleteStore,
+    getStoresByCity,
+    getSpecificStore
   } = require('../../controllers/stores');
 
 // Allows a user that is a chef to create a new store
@@ -18,5 +20,11 @@ router.patch('/:id', isChef(), updateStore);
 
 //Allows a user that is a chef to delete their store
 router.delete('/:id', isChef(), deleteStore);
+
+//Allows a user to get all chef's in searched city
+router.get('/address', getStoresByCity);
+
+//Allows a user to get a specific store
+router.get('/:id', getSpecificStore);
 
 module.exports = router;
