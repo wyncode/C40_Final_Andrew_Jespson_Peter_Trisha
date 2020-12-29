@@ -26,7 +26,7 @@ const StoreSchema = new Schema(
       type: String,
       required: true
     },
-    deliveryFee: {
+    serviceFee: {
       type: Number,
       required: true
     },
@@ -52,7 +52,7 @@ const StoreSchema = new Schema(
     availabilityCalender: {
       type: Object
     },
-    Bio: {
+    bio: {
       type: String,
       required: true,
       maxlength: 250,
@@ -71,7 +71,7 @@ const StoreSchema = new Schema(
         }
       }
     ],
-    Website: {
+    website: {
       type: String
     },
     educationalBackground: {
