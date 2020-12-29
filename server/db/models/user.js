@@ -6,6 +6,10 @@ const mongoose = require('mongoose'),
 
 const userSchema = new mongoose.Schema(
   {
+    chef: {
+      type: Boolean,
+      required: true
+    },
     fullname: {
       type: String,
       required: true,

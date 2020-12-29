@@ -1,5 +1,5 @@
 // import db
-require('./db/config/config');
+require('./db/config/index');
 
 const express = require('express'),
   app = express(),
@@ -7,9 +7,12 @@ const express = require('express'),
   passport = require('./middleware/authentication'),
   cookieParser = require('cookie-parser'),
   openRoutes = require('./routes/open/index'),
-  dishRoutes = require('./routes/secure/dishRoutes');
+  dishRoutes = require('./routes/secure/dishRoutes'),
+  userRoutes = require('./routes/secure/usersRoutes'),
+  storeRoutes = require('./routes/secure/storesRoute');
 path = require('path');
 
+// Parse incoming JSON into objects
 // Parse incoming JSON into objects
 app.use(express.json());
 // Log all requests
@@ -30,6 +33,7 @@ app.use('/api/*', passport.authenticate('jwt', { session: false }));
 
 app.use('/api/users', userRoutes);
 app.use('/api/dishes', dishRoutes);
+app.use('/api/stores', storeRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   // Handle React routing, return all requests to React app

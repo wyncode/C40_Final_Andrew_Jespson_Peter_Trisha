@@ -1,11 +1,12 @@
-import chefButton from './welcombuttons/chefregbutton';
-import userButton from './welcombuttons/userregbutton';
+import ChefButton from './welcombuttons/chefregbutton';
+import UserButton from './welcombuttons/userregbutton';
 
 const welcombuttons = () => {
   return (
     <div>
-      <chefButton />
-      <userButton />
+      <h1>HELLO</h1>
+      <ChefButton />
+      <UserButton />
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-const userButton = ({ history }) => {
+const UserButton = () => {
+  const history = useHistory();
   const handleClick = (e) => {
     e.preventDefault();
     history.push('/user-register');
@@ -13,4 +15,4 @@ const userButton = ({ history }) => {
   );
 };
 
-export default userButton;
+export default UserButton;

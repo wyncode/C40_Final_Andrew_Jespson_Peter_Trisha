@@ -1,8 +1,10 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { AppContextProvider } from './context/AppContext';
-import { welcomebuttons } from './components/authforms/welcomebuttons';
-import { ChefRegister } from './pages/chefregister';
-import { UserRegister } from './pages/userregistration';
+import welcomebuttons from './components/authforms/welcomebuttons';
+import ChefRegister from './pages/chefregister';
+import UserRegister from './pages/userregistration';
+import DashHompage from './pages/user/Homepage';
+import Login from './pages/login';
 
 import './App.css';
 
@@ -11,11 +13,11 @@ function App() {
     <AppContextProvider>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={Home} />
           <Route exact path="/welcome" component={welcomebuttons} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/chef-register" component={ChefRegister} />
           <Route exact path="/user-register" component={UserRegister} />
+          <Route exact path="/Dashboard" component={DashHompage} />
         </Switch>
       </BrowserRouter>
     </AppContextProvider>

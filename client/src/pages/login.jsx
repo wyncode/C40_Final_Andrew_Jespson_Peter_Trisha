@@ -2,13 +2,13 @@ import React, { useState, useContext } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import swal from 'sweetalert';
 
 const Login = ({ history }) => {
   const [formData, setFormData] = useState(null);
-
-  const { setCurrentUser } = useContext(AppContext);
+  const { currentUser, setCurrentUser } = useContext(AppContext);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,7 +21,19 @@ const Login = ({ history }) => {
       setCurrentUser(response.data);
       console.log(response.data);
       sessionStorage.setItem('user', response.data);
-      history.push('/');
+      switch (currentUser.role) {
+        case currentUser.role === 'user':
+          history.push('/');
+          break;
+        case currentUser.role === 'chef':
+          history.push('/store');
+          break;
+        case currentUser.role === 'admin':
+          history.push('/dashboard');
+          break;
+        default:
+          history.push('/');
+      }
     } catch (error) {
       swal(`Oops!`, 'Something went wrong.');
     }

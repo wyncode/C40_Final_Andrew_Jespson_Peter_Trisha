@@ -12,6 +12,7 @@ const ChefRegister = ({ history }) => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log(formData);
   };
 
   const handleSignUp = async (e) => {
@@ -29,7 +30,7 @@ const ChefRegister = ({ history }) => {
   return (
     <Container className="container d-flex flex-column align-items-center justify-content-center fullscreen">
       <h1>Register</h1>
-      <Form style={{ width: 300 }} onSubmit={handleLogin}>
+      <Form style={{ width: 300 }} onSubmit={handleSignUp}>
         <Form.Group>
           <Form.Label htmlFor="email">fullname</Form.Label>
           <Form.Control
@@ -66,7 +67,6 @@ const ChefRegister = ({ history }) => {
             id="role"
             type="role"
             name="role"
-            value="chef" //i hope this automatically puts user in role i hope
             onChange={handleChange}
           />
         </Form.Group>
@@ -83,10 +83,10 @@ const ChefRegister = ({ history }) => {
         <Form.Group>
           <Form.Label htmlFor="password">Address</Form.Label>
           <Form.Control
-            id="Street"
-            type="Street"
+            id="street"
+            type="street"
             placeholder="Street"
-            name="Street"
+            name="street"
             onChange={handleChange}
           />
           <Form.Control

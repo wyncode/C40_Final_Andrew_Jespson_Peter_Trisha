@@ -8,20 +8,18 @@ const User = require('../db/models/user'),
  */
 exports.createUser = async (req, res) => {
   const {
-    name,
+    fullname,
     email,
     password,
-    role,
     phoneNumber,
     address,
     dateOfBirth
   } = req.body;
   try {
     const user = new User({
-      name,
+      fullname,
       email,
       password,
-      role,
       phoneNumber,
       address,
       dateOfBirth

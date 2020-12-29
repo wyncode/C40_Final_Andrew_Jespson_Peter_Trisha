@@ -1,6 +1,8 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-const chefButton = ({ history }) => {
+const ChefButton = () => {
+  const history = useHistory();
   const handleClick = (e) => {
     e.preventDefault();
     history.push('/chef-register');
@@ -8,9 +10,18 @@ const chefButton = ({ history }) => {
   return (
     <div>
       <p>Are You A Chef ?</p>
-      <button onClick={handleClick}>Register</button>
+      <button
+        style={{
+          border: '1px solid red',
+          height: '100px',
+          width: '100px'
+        }}
+        onClick={handleClick}
+      >
+        Register
+      </button>
     </div>
   );
 };
 
-export default chefButton;
+export default ChefButton;
