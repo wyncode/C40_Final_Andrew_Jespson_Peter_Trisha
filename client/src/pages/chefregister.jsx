@@ -32,12 +32,22 @@ const ChefRegister = ({ history }) => {
       <h1>Register</h1>
       <Form style={{ width: 300 }} onSubmit={handleSignUp}>
         <Form.Group>
-          <Form.Label htmlFor="email">fullname</Form.Label>
+          <Form.Label htmlFor="email">firstname</Form.Label>
           <Form.Control
             id="fullname"
             type="fullname"
             placeholder="fullname"
-            name="fullname"
+            name="firstName"
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label htmlFor="email">lastname</Form.Label>
+          <Form.Control
+            id="fullname"
+            type="fullname"
+            placeholder="fullname"
+            name="lastName"
             onChange={handleChange}
           />
         </Form.Group>

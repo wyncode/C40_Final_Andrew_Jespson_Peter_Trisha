@@ -8,11 +8,15 @@ const User = require('../db/models/user'),
  */
 exports.createUser = async (req, res) => {
   const {
-    fullname,
+    firstName,
+    lastName,
     email,
     password,
     phoneNumber,
-    address,
+    street,
+    city,
+    state,
+    zip,
     dateOfBirth
   } = req.body;
   try {
@@ -21,7 +25,7 @@ exports.createUser = async (req, res) => {
       email,
       password,
       phoneNumber,
-      address,
+      address: { street, city, state, zip },
       dateOfBirth
     });
     const token = await user.generateAuthToken();
