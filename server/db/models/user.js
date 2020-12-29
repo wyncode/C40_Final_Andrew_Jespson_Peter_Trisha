@@ -69,17 +69,15 @@ const userSchema = new mongoose.Schema(
       required: [true, 'User phone number required'],
       unique: true
     },
-    address: {
-      street: String,
-      city: String,
-      state: {
-        type: String,
-        uppercase: true,
-        required: [true, "Must write similar to 'FL'"],
-        maxlength: 2
-      },
-      zip: Number
+    street: { type: String },
+    city: { type: String },
+    state: {
+      type: String,
+      uppercase: true,
+      required: [true, "Must write similar to 'FL'"],
+      maxlength: 2
     },
+    zip: { type: Number },
     dateOfBirth: {
       type: String,
       required: true
@@ -111,6 +109,10 @@ const userSchema = new mongoose.Schema(
     timestamps: true
   }
 );
+
+userSchema.virtual('address').get(function () {
+  return this.street + ' ' + this.city + ' ' + this.state + ' ' + this.zip;
+});
 
 userSchema.virtual('store', {
   ref: 'Store',

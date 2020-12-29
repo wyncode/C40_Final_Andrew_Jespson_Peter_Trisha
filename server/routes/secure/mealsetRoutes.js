@@ -14,10 +14,10 @@ router.get('/', getAllMealSets);
 //Get a single Meal Set using different queries in slug to find the set
 router.get('/:id', getMealSet);
 //Create a Meal Set
-router.post('/', isChef(), createMealSet);
+router.post('/', createMealSet);
 //Update a Meal Set using different queries in slug to find the set
-router.put('/slug', isChef(), updateMealSet);
+router.put('/:id', updateMealSet);
 //Delete a Meal Set
-router.delete('/:id', isChef(), deleteMealSet);
+router.delete('/:id', deleteMealSet);
 
 module.exports = router;

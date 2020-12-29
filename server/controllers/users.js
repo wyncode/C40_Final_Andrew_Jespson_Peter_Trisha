@@ -8,6 +8,7 @@ const User = require('../db/models/user'),
  */
 exports.createUser = async (req, res) => {
   const {
+    chef,
     firstName,
     lastName,
     email,
@@ -21,13 +22,20 @@ exports.createUser = async (req, res) => {
   } = req.body;
   try {
     const user = new User({
-      fullname,
+      chef,
+      firstName,
+      lastName,
       email,
       password,
       phoneNumber,
-      address: { street, city, state, zip },
+      street,
+      city,
+      state,
+      zip,
       dateOfBirth
     });
+    console.log(user);
+    console.log(user.address);
     const token = await user.generateAuthToken();
     res.cookie('jwt', token, {
       httpOnly: true,

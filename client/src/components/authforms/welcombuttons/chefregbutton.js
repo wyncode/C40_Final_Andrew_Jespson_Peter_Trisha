@@ -10,16 +10,7 @@ const ChefButton = () => {
   return (
     <div>
       <p>Are You A Chef ?</p>
-      <button
-        style={{
-          border: '1px solid red',
-          height: '100px',
-          width: '100px'
-        }}
-        onClick={handleClick}
-      >
-        Register
-      </button>
+      <button onClick={handleClick}>Register</button>
     </div>
   );
 };

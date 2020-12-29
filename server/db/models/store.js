@@ -29,7 +29,7 @@ const StoreSchema = new Schema(
       type: String,
       required: true
     },
-    deliveryFee: {
+    serviceFee: {
       type: Number,
       required: true
     },
@@ -55,7 +55,7 @@ const StoreSchema = new Schema(
     availabilityCalender: {
       type: Object
     },
-    Bio: {
+    bio: {
       type: String,
       required: true,
       maxlength: 250,
@@ -74,7 +74,7 @@ const StoreSchema = new Schema(
         }
       }
     ],
-    Website: {
+    website: {
       type: String
     },
     educationalBackground: {
@@ -118,12 +118,7 @@ StoreSchema.virtual('dishes', {
   foreignField: 'store',
   justOne: false
 });
-//adding to JSON function for instance methods
-StoreSchema.methods.toJSON = function () {
-  const store = this;
-  const storeObject = store.toObject();
-  return storeObject;
-};
+
 //adding mongoose middleware to delete all dish and Mealset when
 //store is deleted
 StoreSchema.pre('remove', async function (next) {
