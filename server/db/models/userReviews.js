@@ -5,9 +5,9 @@ const userReviewSchema = new Schema(
   {
     // ReviewId: { type: String, required: true, trim: true },
     isChef: { type: Boolean, default: false },
-    User: { type: String, ref: User },
-    Rating: { type: [] / Number, required: true },
-    ReturningCustomer: { type: String, required: true },
+    user: { type: String, ref: User },
+    rating: { type: [] / Number, required: true },
+    returningCustomer: { type: String, required: true },
     isUser: { type: Boolean, default: false }
   },
   { timestamps: true }
