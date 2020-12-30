@@ -8,13 +8,9 @@ const express = require('express'),
   passport = require('./middleware/authentication'),
   cookieParser = require('cookie-parser'),
   openRoutes = require('./routes/open'),
-mealSetRouter = require('./routes/secure/mealsetRoutes'),
-dishRouter = require('./routes/secure/dishRoutes'),
-storeRouter = require('./routes/secure/storeRoutes');
-
-
-const app = express();
-
+  mealSetRouter = require('./routes/secure/mealsetRoutes'),
+  dishRouter = require('./routes/secure/dishRoutes'),
+  storeRouter = require('./routes/secure/storeRoutes');
 
 // Parse incoming JSON into objects
 app.use(express.json());
