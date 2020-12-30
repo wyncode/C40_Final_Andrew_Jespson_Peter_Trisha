@@ -34,6 +34,7 @@ exports.createUser = async (req, res) => {
       zip,
       dateOfBirth
     });
+    await user.save();
     const token = await user.generateAuthToken();
     res.cookie('jwt', token, {
       httpOnly: true,
