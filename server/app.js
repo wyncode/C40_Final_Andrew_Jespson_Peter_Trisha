@@ -11,6 +11,9 @@ const express = require('express'),
   dishRouter = require('./routes/secure/dishRoutes'),
   storeRouter = require('./routes/secure/storeRoutes');
 
+const app = express();
+
+
 // Parse incoming JSON into objects
 app.use(express.json());
 // Log all requests
