@@ -1,8 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
-import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import swal from 'sweetalert';
 
@@ -21,59 +19,39 @@ const Login = ({ history }) => {
       setCurrentUser(response.data);
       console.log(response.data);
       sessionStorage.setItem('user', response.data);
-      switch (currentUser.role) {
-        case currentUser.role === 'user':
-          history.push('/');
-          break;
-        case currentUser.role === 'chef':
-          history.push('/store');
-          break;
-        case currentUser.role === 'admin':
-          history.push('/dashboard');
-          break;
-        default:
-          history.push('/');
+      if (currentUser.role === 'chef') {
+        history.push('/store');
+      } else if (currentUser.role) {
+        history.push('/dashboard');
       }
+      history.push('/shop');
     } catch (error) {
       swal(`Oops!`, 'Something went wrong.');
     }
   };
 
   return (
-    <Container className="container d-flex flex-column align-items-center justify-content-center fullscreen">
-      <h1>Task Manager</h1>
-      <Form style={{ width: 300 }} onSubmit={handleLogin}>
-        <Form.Group>
-          <Form.Label htmlFor="email">Email Address</Form.Label>
-          <Form.Control
-            id="email"
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label htmlFor="password">Password</Form.Label>
-          <Form.Control
-            id="password"
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group className="d-flex justify-content-center">
-          <Button type="submit">Login</Button>
-        </Form.Group>
-      </Form>
-      <Link className="mt-4" to="/welcome">
-        Need an account? Register.
-      </Link>
-      <Link className="mt-4" to="/forgotpassword">
-        I forgot my password!
-      </Link>
-    </Container>
+    <div>
+      <form onSubmit={handleLogin}>
+        <input
+          id="email"
+          type="email"
+          placeholder="Email Address"
+          name="email"
+          onChange={handleChange}
+        />
+        <input
+          id="password"
+          type="password"
+          placeholder="password"
+          name="password"
+          onChange={handleChange}
+        />
+        <input type="submit" value="Submit" />
+      </form>
+      <Link to="/register">Need an account? Sign up.</Link>
+      <Link to="/forgotpassword">I forgot my password!</Link>
+    </div>
   );
 };
 

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import userNav from './usernav';
 import { Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { AppContext } from '../../context/AppContext';
 
 const DashHompage = () => {
   const history = useHistory();

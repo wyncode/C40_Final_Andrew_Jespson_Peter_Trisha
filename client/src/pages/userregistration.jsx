@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios';
@@ -7,128 +6,109 @@ import swal from 'sweetalert';
 
 const UserRegister = ({ history }) => {
   const [formData, setFormData] = useState(null);
-
   const { setCurrentUser } = useContext(AppContext);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSignUp = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/users/register', formData);
-      setCurrentUser(response.data.user);
+      const response = await axios.post('/api/users/login', formData);
+      setCurrentUser(response.data);
+      console.log(response.data);
       sessionStorage.setItem('user', response.data);
-      history.push('/');
+      history.push('/shop');
     } catch (error) {
-      swal('SignUp Error: ', error.toString());
+      swal(`Oops!`, 'Something went wrong.');
     }
   };
 
   return (
-    <Container className="container d-flex flex-column align-items-center justify-content-center fullscreen">
-      <h1>Register</h1>
-      <Form style={{ width: 300 }} onSubmit={handleLogin}>
-        <Form.Group>
-          <Form.Label htmlFor="email">fullname</Form.Label>
-          <Form.Control
-            id="fullname"
-            type="fullname"
-            placeholder="fullname"
-            name="fullname"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label htmlFor="email">Email Address</Form.Label>
-          <Form.Control
-            id="email"
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label htmlFor="password">Password</Form.Label>
-          <Form.Control
-            id="password"
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label htmlFor="password">role</Form.Label>
-          <Form.Control
-            id="role"
-            type="role"
-            name="role"
-            value="user" //i hope this automatically puts user in role i hope
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label htmlFor="password">phoneNumber</Form.Label>
-          <Form.Control
-            id="phoneNumber"
-            type="phoneNumber"
-            placeholder="phoneNumber"
-            name="phoneNumber"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label htmlFor="password">Address</Form.Label>
-          <Form.Control
-            id="Street"
-            type="Street"
-            placeholder="Street"
-            name="Street"
-            onChange={handleChange}
-          />
-          <Form.Control
-            id="city"
-            type="city"
-            placeholder="city"
-            name="city"
-            onChange={handleChange}
-          />
-          <Form.Control
-            id="state"
-            type="state"
-            placeholder="state"
-            name="state"
-            onChange={handleChange}
-          />
-          <Form.Control
-            id="zip"
-            type="zip"
-            placeholder="zipcode"
-            name="zip"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label htmlFor="password">Date of Birth</Form.Label>
-          <Form.Control
-            id="dateOfBirth"
-            type="dateOfBirth"
-            placeholder="date Of Birth"
-            name="dateOfBirth"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group className="d-flex justify-content-center">
-          <Button type="submit">Register</Button>
-        </Form.Group>
-      </Form>
-      <Link className="mt-4" to="/welcome">
-        Have an account? Login.
-      </Link>
-    </Container>
+    <div>
+      <form onSubmit={handleLogin}>
+        <input
+          id="chef"
+          type="chef"
+          placeholder="type False"
+          name="chef"
+          onChange={handleChange}
+        />
+        <input
+          id="firstName"
+          type="firstName"
+          placeholder="firstname"
+          name="firstName"
+          onChange={handleChange}
+        />
+        <input
+          id="lastName"
+          type="lastName"
+          placeholder="lastname"
+          name="lastName"
+          onChange={handleChange}
+        />
+        <input
+          id="email"
+          type="email"
+          placeholder="Email Address"
+          name="email"
+          onChange={handleChange}
+        />
+        <input
+          id="password"
+          type="password"
+          placeholder="password"
+          name="password"
+          onChange={handleChange}
+        />
+        <input
+          id="phoneNumber"
+          type="phoneNumber"
+          placeholder="Phone Number"
+          name="phoneNumber"
+          onChange={handleChange}
+        />
+        <input
+          id="street"
+          type="street"
+          placeholder="street"
+          name="street"
+          onChange={handleChange}
+        />
+        <input
+          id="city"
+          type="city"
+          placeholder="city"
+          name="city"
+          onChange={handleChange}
+        />
+        <input
+          id="state"
+          type="state"
+          placeholder="state"
+          name="state"
+          onChange={handleChange}
+        />
+        <input
+          id="zip"
+          type="zip"
+          placeholder="zipcode"
+          name="zip"
+          onChange={handleChange}
+        />
+        <input
+          id="dateOfBirth"
+          type="dateOfBirth"
+          placeholder="Date Of Birth"
+          name="dateOfBirth"
+          onChange={handleChange}
+        />
+        <input type="submit" value="Submit" />
+      </form>
+      <Link to="/login">Have an account? Login.</Link>
+    </div>
   );
 };
 
