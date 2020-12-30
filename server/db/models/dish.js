@@ -33,5 +33,11 @@ const dishSchema = new mongoose.Schema({
   }
 });
 
+dishSchema.virtual('mealSet', {
+  ref: 'mealSet',
+  localField: '_id',
+  foreignField: 'dish'
+});
+
 const Dish = mongoose.model('Dish', dishSchema);
 module.exports = Dish;
