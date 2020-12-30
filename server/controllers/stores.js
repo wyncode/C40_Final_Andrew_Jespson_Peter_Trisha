@@ -5,7 +5,7 @@ const mongoose = require('mongoose'),
 exports.createStore = async (req, res) => {
   console.log('hello');
   try {
-    const store = await new Store({
+    const store = new Store({
       ...req.body,
       owner: req.user._id
     });

@@ -1,8 +1,25 @@
 const User = require('../db/models/user'),
   jwt = require('jsonwebtoken');
 
+/**
+ * @param {name, email, password}
+ * Create a user
+ * @return {user}
+ */
 exports.createUser = async (req, res) => {
-  const { chef, firstName, lastName, email, password, address } = req.body;
+  const {
+    chef,
+    firstName,
+    lastName,
+    email,
+    password,
+    phoneNumber,
+    street,
+    city,
+    state,
+    zip,
+    dateOfBirth
+  } = req.body;
   try {
     const user = new User({
       chef,
@@ -10,8 +27,14 @@ exports.createUser = async (req, res) => {
       lastName,
       email,
       password,
-      address
+      phoneNumber,
+      street,
+      city,
+      state,
+      zip,
+      dateOfBirth
     });
+    await user.save();
     const token = await user.generateAuthToken();
     res.cookie('jwt', token, {
       httpOnly: true,
@@ -23,9 +46,12 @@ exports.createUser = async (req, res) => {
     res.status(400).json({ error: e.toString() });
   }
 };
-
+/**
+ * @param {email, password}
+ * Login a user
+ * @return {user}
+ */
 exports.loginUser = async (req, res) => {
-  console.log(req.body);
   const { email, password } = req.body;
   try {
     const user = await User.findByCredentials(email, password);
@@ -41,37 +67,83 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-exports.requestPasswordReset = async (req, res) => {
+//Authenticated Routes Below
+
+/**
+ * @param {req.user}
+ * Get current user
+ * @return {user}
+ */
+exports.getCurrentUser = async (req, res) => res.json(req.user);
+
+/**
+ * @param {{updates}}
+ * Update a user
+ * @return {user}
+ */
+exports.updateCurrentUser = async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ['name', 'email', 'password', 'avatar'];
+  const isValidOperation = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+  if (!isValidOperation)
+    return res.status(400).send({ error: 'invalid updates!' });
   try {
-    const { email } = req.query,
-      user = await User.findOne({ email });
-    if (!user) throw new Error('no user found');
-    const token = jwt.sign(
-      { _id: user._id.toString(), name: user.name },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: '10m'
-      }
-    );
-    res.json({ message: 'reset password email sent' });
+    updates.forEach((update) => (req.user[update] = req.body[update]));
+    await req.user.save();
+    res.json(req.user);
   } catch (e) {
-    res.json({ error: e.toString() });
+    res.status(400).json({ error: e.toString() });
   }
 };
 
-exports.passwordRedirect = async (req, res) => {
+/**
+ * @param {}
+ * Logout a user
+ * @return {}
+ */
+exports.logoutUser = async (req, res) => {
   try {
-    const { token } = req.params;
-    jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
-      if (err) throw new Error(err.message);
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token.token !== req.cookies.jwt;
     });
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      maxAge: 600000,
-      sameSite: 'Strict'
-    });
-    res.redirect(process.env.URL + '/updatepassword');
+    await req.user.save();
+    res.clearCookie('jwt');
+    res.json({ message: 'Logged out' });
   } catch (e) {
-    res.json({ error: e.toString() });
+    res.status(500).json({ error: e.toString() });
+  }
+};
+
+/**
+ * @param {}
+ * Logout all devices
+ * @return {}
+ */
+exports.logoutAllDevices = async (req, res) => {
+  try {
+    req.user.tokens = [];
+    await req.user.save();
+    res.clearCookie('jwt');
+    res.json({ message: 'all devices logged out' });
+  } catch (e) {
+    res.status(500).send();
+  }
+};
+
+/**
+ * @param {}
+ * Delete a user
+ * @return {}
+ */
+exports.deleteUser = async (req, res) => {
+  try {
+    await req.user.remove();
+    sendCancellationEmail(req.user.email, req.user.name);
+    res.clearCookie('jwt');
+    res.json({ message: 'user deleted' });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
   }
 };
