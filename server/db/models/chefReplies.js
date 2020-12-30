@@ -4,10 +4,10 @@ const Schema = mongoose.Schema;
 
 const chefRepliesSchema = new Schema(
   {
-    Chef: { type: ObjectID, required: true, trim: true, ref: User },
+    chef: { type: ObjectID, required: true, trim: true, ref: User },
     isChef: { type: Boolean, default: false },
-    User: { type: ObjectID },
-    Reply: { type: String, required: true }
+    user: { type: ObjectID },
+    reply: { type: String, required: true }
   },
   { timestamps: true }
 );
