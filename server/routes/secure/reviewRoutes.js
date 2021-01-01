@@ -6,7 +6,7 @@ const {
   replyReview,
   updateReview,
   deleteReview
-} = require('../controllers/userReviewsController');
+} = require('../controllers/reviews');
 
 //Get all Reviews
 router.get('/', getAllReviews);
