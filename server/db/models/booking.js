@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const bookingSchema = new Schema(
   {
+    store: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Store'
+    },
     isPrefixed: {
       type: Boolean,
       required: true
@@ -50,6 +54,10 @@ const bookingSchema = new Schema(
     addressConfirmation: {
       type: String,
       required: true
+    },
+    booker: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
     }
   },
   { timestamps: true }
