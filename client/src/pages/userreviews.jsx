@@ -28,13 +28,6 @@ const UserReviews = ({ history }) => {
     <div>
       <form onSubmit={handleSubmit}>
         <input
-          id="user"
-          type="ObjectId"
-          placeholder="User: "
-          name="user"
-          onChange={handleChange}
-        />
-        <input
           id="ratingTitle"
           type="String"
           placeholder="Title: "
