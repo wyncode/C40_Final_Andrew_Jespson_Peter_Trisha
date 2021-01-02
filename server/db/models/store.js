@@ -1,6 +1,8 @@
+const { address } = require('faker');
 const mongoose = require('mongoose');
 const Dish = require('./dish'),
-  MealSet = require('./mealSet');
+  MealSet = require('./mealSet'),
+  geocoder = require('../../middleware/geocoder/geocoder');
 
 const Schema = mongoose.Schema;
 
@@ -8,22 +10,30 @@ const StoreSchema = new Schema(
   {
     chefName: {
       type: String,
-      required: true
+      required: true,
+      text: true
     },
     address: {
+      type: String,
+      required: [true, 'an address is required']
+    },
+    //this is to use GEOJSON doc url https://mongoosejs.com/docs/geojson.html
+    location: {
+      type: {
+        type: String, // Don't do `{ location: { type: String } }`
+        enum: ['Point'], // 'location.type' must be 'Point'
+        required: true
+      },
+      coordinates: {
+        type: [Number], //an array of the coordinates
+        required: true,
+        index: '2dsphere'
+      },
+      meshupAddress: String,
       street: String,
       city: String,
-      state: {
-        type: String,
-        uppercase: true,
-        required: [true, "Must write similar to 'FL'"],
-        maxlength: 2
-      },
-      zip: Number
-    },
-    operatingHours: {
-      type: Number,
-      required: true
+      state: String,
+      zipcode: String
     },
     priceRange: {
       type: String,
@@ -59,6 +69,7 @@ const StoreSchema = new Schema(
       type: String,
       required: true,
       maxlength: 250,
+      text: true,
       required: true
     },
     socialHandle: [
@@ -117,6 +128,28 @@ StoreSchema.virtual('dishes', {
   localField: '_id',
   foreignField: 'store',
   justOne: false
+});
+
+//this basically gonna pass the address though the geocoder before saving the
+//store
+StoreSchema.pre('save', async function (next) {
+  const loc = await geocoder.geocode(this.address);
+  this.location = {
+    type: 'Point',
+    coordinates: [loc[0].longitude, loc[0].latitude],
+    meshupAddress: loc[0].meshupAddress,
+    street: loc[0].streetName,
+    city: loc[0].city,
+    state: loc[0].state,
+    zipcode: loc[0].zipcode
+  };
+
+  //since we decided to go with meshup address then
+  //there's no need to save address
+  // we rather save meshupAddress
+
+  this.address = undefined;
+  next();
 });
 
 //adding mongoose middleware to delete all dish and Mealset when
