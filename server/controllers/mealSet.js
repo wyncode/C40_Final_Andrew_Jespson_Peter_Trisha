@@ -15,19 +15,39 @@ exports.createMealSet = async (req, res) => {
     res.status(400).json({ error: e.toString() });
   }
 };
-
-// exports.getAllMealSets = async (req, res) => {
-//   try {
-//     const getAllMealSets = MealSet.find({});
-//     res.send(getAllMealSets);
-//   } catch (e) {
-//     res.status(400).json({ error: e.toString() });
-//   }
-// };
+//get all mealset from all stores or from a single store
+exports.getAllMealSets = async (req, res) => {
+  let query;
+  try {
+    //if a store id is provided then we'll find dishes
+    //inside said store // if not then we'll show all courses
+    if (req.params.storeId) {
+      query = MealSet.find({ store: req.params.storeId });
+    } else {
+      //in this code we get all dishes from all stores
+      //and mealset and we populate them
+      query = MealSet.find({})
+        .populate({
+          path: 'store',
+          select: 'chefName bio'
+        })
+        .populate('dishes');
+    }
+    const mealsets = await query;
+    res.json(mealsets);
+  } catch (e) {
+    res.status(400).json({ error: e.toString() });
+  }
+};
 
 exports.getMealSet = async (req, res) => {
   try {
-    const mealSet = await MealSet.findOne({ _id: req.params.id });
+    const mealSet = await MealSet.findOne({ _id: req.params.id })
+      .populate({
+        path: 'store',
+        select: 'chefName bio'
+      })
+      .populate('dishes');
     if (!mealSet) return res.status(404).send();
     res.json(mealSet);
   } catch (e) {

@@ -110,7 +110,11 @@ const StoreSchema = new Schema(
       ref: 'User'
     }
   },
-  { timestamps: true }
+  { timestamps: true },
+  //we need this method becasue Mongoose does not include virtuals when you convert a document to JSON. For example, if you pass a document to Express' res.json() function,
+  // virtuals will not be included by default.
+  //https://mongoosejs.com/docs/tutorials/virtuals.html
+  { toJSON: { virtuals: true } }
 );
 
 //virtual relationship with mealSet
@@ -129,6 +133,9 @@ StoreSchema.virtual('dishes', {
   foreignField: 'store',
   justOne: false
 });
+
+//we need this method becasue Mongoose does not include virtuals when you convert a document to JSON. For example, if you pass a document to Express' res.json() function,
+// virtuals will not be included by default.
 
 //this basically gonna pass the address though the geocoder before saving the
 //store

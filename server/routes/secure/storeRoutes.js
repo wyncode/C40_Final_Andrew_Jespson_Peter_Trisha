@@ -1,6 +1,7 @@
 const router = require('express').Router(),
   { isChef } = require('../../middleware/authorization'),
   {
+    getAllStores,
     createStore,
     getMyStore,
     updateStore,
@@ -8,6 +9,9 @@ const router = require('express').Router(),
     getStoresByCity,
     getSpecificStore
   } = require('../../controllers/stores');
+
+// get all stores in the the the db
+router.get('/', isChef(), getAllStores);
 
 // Allows a user that is a chef to create a new store
 router.post('/', isChef(), createStore);

@@ -27,16 +27,14 @@ const dishSchema = new mongoose.Schema({
     trim: true,
     text: true
   },
+  mealset: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'MealSet'
+  },
   store: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Store'
   }
-});
-
-dishSchema.virtual('mealSet', {
-  ref: 'mealSet',
-  localField: '_id',
-  foreignField: 'dish'
 });
 
 const Dish = mongoose.model('Dish', dishSchema);

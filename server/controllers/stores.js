@@ -1,6 +1,19 @@
 const mongoose = require('mongoose'),
   Store = require('../db/models/store');
 
+/*
+get all stores with all the product and mealset
+ */
+
+exports.getAllStores = async (req, res, next) => {
+  try {
+    const stores = await Store.find({}).populate('mealsets').populate('dishes');
+    res.json(stores);
+  } catch (e) {
+    res.status(400).json({ error: e.toString() });
+  }
+};
+
 /* Create a store, for users that are chefs */
 exports.createStore = async (req, res) => {
   console.log('hello');
@@ -20,7 +33,10 @@ exports.createStore = async (req, res) => {
 exports.getMyStore = async (req, res) => {
   console.log('hello');
   try {
-    await req.user.populate({ path: 'store' }).execPopulate();
+    await req.user
+      .populate({ path: 'store' })
+      .populate('mealsets')
+      .populate('dishes');
     res.json(req.user.store);
   } catch (e) {
     res.status(500).json({ error: e.toString() });
