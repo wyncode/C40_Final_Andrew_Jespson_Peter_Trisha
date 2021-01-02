@@ -29,7 +29,7 @@ const StoreSchema = new Schema(
         required: true,
         index: '2dsphere'
       },
-      meshupAddress: String,
+      formattedAddress: String,
       street: String,
       city: String,
       state: String,
@@ -137,7 +137,7 @@ StoreSchema.pre('save', async function (next) {
   this.location = {
     type: 'Point',
     coordinates: [loc[0].longitude, loc[0].latitude],
-    meshupAddress: loc[0].meshupAddress,
+    formattedAddress: loc[0].formattedAddress,
     street: loc[0].streetName,
     city: loc[0].city,
     state: loc[0].state,
