@@ -36,12 +36,10 @@ const bookingSchema = new Schema(
       }
     ],
     serviceFee: {
-      type: Number,
-      default: true
+      type: Number
     },
     totalCost: {
-      type: Number,
-      required: true
+      type: Number
     },
     bookingDate: {
       type: Number,
@@ -63,5 +61,5 @@ const bookingSchema = new Schema(
   { timestamps: true }
 );
 
-const booking = mongoose.model('booking', bookingSchema);
+const booking = mongoose.model('Booking', bookingSchema);
 module.exports = bookingSchema;
