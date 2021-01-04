@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const geocoder = require('../../middleware/geocoder/index');
 const Dish = require('./dish'),
   MealSet = require('./mealSet');
 
@@ -10,22 +11,41 @@ const StoreSchema = new Schema(
       type: String,
       required: true
     },
-    address: {
-      street: String,
-      city: String,
-      state: {
-        type: String,
-        uppercase: true,
-        required: [true, "Must write similar to 'FL'"],
-        maxlength: 2
-      },
-      zip: Number
-    },
-    operatingHours: {
-      type: Number,
+    bio: {
+      type: String,
+      required: true,
+      maxlength: 250,
       required: true
     },
-    priceRange: {
+    careerHighlights: {
+      type: String
+    },
+    educationalBackground: {
+      type: String
+    },
+    specializedCertifications: {
+      type: String
+    },
+    address: { type: String },
+    location: {
+      type: {
+        type: String,
+        enum: ['Point']
+      },
+      coordinates: {
+        type: [Number],
+        index: '2dsphere'
+      },
+      formattedAddress: { type: String },
+      street: { type: String },
+      city: { type: String },
+      state: {
+        type: String
+      },
+      zipcode: { type: Number },
+      Country: { type: String }
+    },
+    operatingHours: {
       type: String,
       required: true
     },
@@ -55,12 +75,6 @@ const StoreSchema = new Schema(
     availabilityCalender: {
       type: Object
     },
-    bio: {
-      type: String,
-      required: true,
-      maxlength: 250,
-      required: true
-    },
     socialHandle: [
       {
         Instagram: {
@@ -77,26 +91,18 @@ const StoreSchema = new Schema(
     website: {
       type: String
     },
-    educationalBackground: {
-      type: String
-    },
-    specializedCertifications: {
-      type: String
-    },
     mediaGallery: [
       {
         type: String
       }
     ],
-    careerHighlights: {
-      type: String
-    },
     allergyInfo: {
       type: String
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
+      require: true
     }
   },
   { timestamps: true }
@@ -119,6 +125,23 @@ StoreSchema.virtual('dishes', {
   justOne: false
 });
 
+//
+StoreSchema.pre('save', async function (next) {
+  const geoloc = await geocoder.geocode(this.address);
+  this.location = {
+    type: 'Point',
+    coordinates: [geoloc[0].longitude, geoloc[0].latitude],
+    formattedAddress: geoloc[0].formattedAddress,
+    street: geoloc[0].streetName,
+    city: geoloc[0].city,
+    state: geoloc[0].state,
+    zipcode: geoloc[0].zipcode,
+    country: geoloc[0].country
+  };
+
+  this.address = undefined;
+  next();
+});
 //adding mongoose middleware to delete all dish and Mealset when
 //store is deleted
 StoreSchema.pre('remove', async function (next) {

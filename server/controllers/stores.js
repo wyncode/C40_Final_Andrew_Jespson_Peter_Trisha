@@ -3,11 +3,10 @@ const mongoose = require('mongoose'),
 
 /* Create a store, for users that are chefs */
 exports.createStore = async (req, res) => {
-  console.log('hello');
+  req.body.owner = req.user.id;
   try {
     const store = new Store({
-      ...req.body,
-      owner: req.user._id
+      ...req.body
     });
     await store.save();
     res.status(201).json(store);
