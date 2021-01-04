@@ -25,12 +25,12 @@ const getADish = async (req, res) => {
 //creste dish
 const createDish = async (req, res) => {
   try {
-    req.body.slug = slugify(req.body.title);
+    req.body.slug = slugify(req.body.dishName);
     const newDish = new Dish({
       ...req.body
     });
     newDish.save();
-    res.status(201).json(task);
+    res.status(201).json(newDish);
   } catch (e) {
     res.status(400).json({ error: e.toString() });
   }
@@ -41,8 +41,7 @@ const updateDish = async (req, res) => {
   try {
     const dish = await Dish.findOneAndUpdate(
       {
-        slug: req.params.slug,
-        owner: req.user._id
+        slug: req.params.slug
       },
       req.body
     ).exec();
