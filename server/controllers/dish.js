@@ -41,7 +41,7 @@ const createDish = async (req, res) => {
       {
         _id: req.user.chefStore
       },
-      { serviceMenu: dish._id }
+      { $push: { serviceMenu: dish._id } }
     );
     res.status(201).json(dish);
   } catch (e) {
@@ -72,6 +72,12 @@ const deleteDish = async (req, res) => {
     const dish = await Dish.findByIdAndDelete({
       _id: req.params.id
     });
+    await Store.findByIdAndUpdate(
+      {
+        _id: req.user.chefStore
+      },
+      { $pull: { serviceMenu: dish._id } }
+    );
     if (!dish) return res.status(404).json({ error: 'Dish not found' });
     res.json({ message: 'Dish has been deleted' });
   } catch (e) {

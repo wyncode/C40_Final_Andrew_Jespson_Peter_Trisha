@@ -1,12 +1,16 @@
-const MealSet = require('../db/models/mealSet');
+const MealSet = require('../db/models/mealSet'),
+  Dish = require('../db/models/dish');
 
 const mongoose = require('mongoose');
 
 exports.createMealSet = async (req, res) => {
   console.log('hello');
+  const chefStore = req.user.chefStore;
+  console.log(chefStore);
   try {
     const mealSet = new MealSet({
       ...req.body
+
       //   mealSet: req.users._id
     });
     await mealSet.save();

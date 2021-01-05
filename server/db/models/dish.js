@@ -37,8 +37,8 @@ const dishSchema = new mongoose.Schema({
   }
 });
 
-dishSchema.virtual('mealSet', {
-  ref: 'mealSet',
+dishSchema.virtual('mealSets', {
+  ref: 'MealSet',
   localField: '_id',
   foreignField: 'dish'
 });
