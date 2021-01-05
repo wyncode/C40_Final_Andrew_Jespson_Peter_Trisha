@@ -1,4 +1,4 @@
-const router = require('express').Router(),
+const router = require('express').Router({ mergeParams: true }),
   dishRoutes = require('../secure/dishRoutes'),
   { isChef } = require('../../middleware/authorization'),
   {
@@ -7,13 +7,14 @@ const router = require('express').Router(),
     updateStore,
     deleteStore,
     getStoresByCity,
-    getSpecificStore
+    getSpecificStore,
+    getAllStores
   } = require('../../controllers/stores');
 
 //api/stores/storeid/dishes
 router.use('/:storeId/dishes', dishRoutes);
 // Allows a user that is a chef to create a new store
-router.route('/').post(isChef(), createStore);
+router.route('/').post(isChef(), createStore).get(getAllStores);
 
 // Allows a user that is a chef to view their current store
 router.route('/currentStore').get(isChef(), getMyStore);

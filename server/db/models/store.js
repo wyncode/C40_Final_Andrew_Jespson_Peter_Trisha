@@ -60,18 +60,6 @@ const StoreSchema = new Schema(
     specialRequests: {
       type: Boolean
     },
-    serviceMenu: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Dish'
-      }
-    ],
-    themedMealSet: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'MealSet'
-      }
-    ],
     availabilityCalender: {
       type: Object
     },
@@ -99,15 +87,21 @@ const StoreSchema = new Schema(
     allergyInfo: {
       type: String
     },
+    dishes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Dish',
+        require: true
+      }
+    ],
     owner: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User',
       require: true
     }
   },
   { timestamps: true },
-  { toJSON: { virtuals: true } },
-  { toObject: { virtuals: true } }
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
 //virtual relationship with mealSet
@@ -115,18 +109,8 @@ const StoreSchema = new Schema(
 StoreSchema.virtual('mealSets', {
   ref: 'MealSet',
   localField: '_id',
-  foreignField: 'store',
-  justOne: false
+  foreignField: 'store'
 });
-
-//virtual relationship with Dish
-StoreSchema.virtual('dishes', {
-  ref: 'Dish',
-  localField: '_id',
-  foreignField: 'store',
-  justOne: false
-});
-
 //
 StoreSchema.pre('save', async function (next) {
   const geoloc = await geocoder.geocode(this.address);

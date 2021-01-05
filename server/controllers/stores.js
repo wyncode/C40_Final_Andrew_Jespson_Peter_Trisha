@@ -1,6 +1,16 @@
 const mongoose = require('mongoose'),
   Store = require('../db/models/store');
 
+exports.getAllStores = async (req, res, next) => {
+  try {
+    const stores = await Store.find({}).populate({
+      path: 'dishes'
+    });
+    res.json(stores);
+  } catch (e) {
+    res.status(400).json({ error: e.toString() });
+  }
+};
 /* Create a store, for users that are chefs */
 exports.createStore = async (req, res) => {
   req.body.owner = req.user.id;
@@ -19,7 +29,13 @@ exports.createStore = async (req, res) => {
 exports.getMyStore = async (req, res) => {
   console.log('hello');
   try {
-    await req.user.populate({ path: 'store' }).execPopulate();
+    await req.user
+      .populate({ path: 'store' })
+      .populate({
+        path: 'dishes'
+      })
+      .execPopulate();
+    console.log(req.user.store);
     res.json(req.user.store);
   } catch (e) {
     res.status(500).json({ error: e.toString() });

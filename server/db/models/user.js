@@ -102,7 +102,8 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true
-  }
+  },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
 userSchema.virtual('address').get(function () {
@@ -115,6 +116,11 @@ userSchema.virtual('store', {
   foreignField: 'owner'
 });
 
+userSchema.virtual('dishes', {
+  ref: 'Dish',
+  localField: '_id',
+  foreignField: 'owner'
+});
 /**
  * // By naming this instance method toJSON we don't
  * // need to call it for it to run because of our

@@ -147,3 +147,13 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: e.toString() });
   }
 };
+
+exports.getUsers = async (req, res) => {
+  console.log('lets goo!');
+  try {
+    const user = User.find({}).populate('store').populate('dishes');
+    res.json(user);
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+};

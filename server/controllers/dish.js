@@ -12,10 +12,9 @@ const slugify = require('slugify');
 const getAlldishes = async (req, res, next) => {
   let query;
   try {
-    if (req.params.storeId) {
-      query = Dish.findById({ store: req.params.storeId }).populate({
-        path: 'store',
-        select: 'chefname bio'
+    if (req.params.store) {
+      query = Dish.findById({ store: req.params.store }).populate({
+        path: 'store'
       });
     } else {
       query = await Dish.find({}).populate({
@@ -34,7 +33,7 @@ const getADish = async (req, res) => {
   try {
     const dish = await Dish.findById(req.params.id).populate({
       path: 'store',
-      select: 'chefName bio'
+      select: 'chefName'
     });
     if (!dish) res.status(404).json({ error: 'dish not found' });
     res.json(dish);
