@@ -11,11 +11,11 @@ const router = require('express').Router(),
 //get all dishes
 router.get('/', getAlldishes);
 //get a single dishes using different queries in slug to find the dish
-router.get('/:slug', getADish);
+router.get('/:id', getADish);
 //create a dish
 router.post('/', isChef(), createDish);
 //update a dish using different queries in slug to find the dish
-router.put('/:slug', isChef(), updateDish);
+router.put('/:id', isChef(), updateDish);
 //delete a dish using different queries in slug to find the dish
 router.delete('/:id', isChef(), deleteDish);
 

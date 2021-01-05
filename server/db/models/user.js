@@ -98,6 +98,10 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String
+    },
+    chefStore: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Store'
     }
   },
   {
@@ -109,11 +113,11 @@ userSchema.virtual('address').get(function () {
   return this.street + ' ' + this.city + ' ' + this.state + ' ' + this.zip;
 });
 
-userSchema.virtual('store', {
-  ref: 'Store',
-  localField: '_id',
-  foreignField: 'owner'
-});
+// userSchema.virtual('store', {
+//   ref: 'Store',
+//   localField: '_id',
+//   foreignField: 'owner'
+// });
 
 /**
  * // By naming this instance method toJSON we don't

@@ -1,15 +1,17 @@
 const mongoose = require('mongoose'),
   Store = require('../db/models/store');
+//User = require('../db/models/user');
 
 /* Create a store, for users that are chefs */
 exports.createStore = async (req, res) => {
-  console.log('hello');
   try {
     const store = new Store({
       ...req.body,
       owner: req.user._id
     });
     await store.save();
+    req.user.chefStore = store._id;
+    await req.user.save();
     res.status(201).json(store);
   } catch (e) {
     res.status(400).json({ error: e.toString() });
@@ -36,7 +38,7 @@ exports.updateStore = async (req, res) => {
       _id: req.params.id,
       owner: req.user._id
     });
-    if (!store) return res.status(400).json({ error: 'store not found' });
+    if (!store) return res.status(404).json({ error: 'store not found' });
     updates.forEach((update) => (store[update] = req.body[update]));
     await store.save();
     res.json(store);
