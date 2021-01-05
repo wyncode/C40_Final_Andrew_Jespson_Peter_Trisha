@@ -20,7 +20,7 @@ exports.createStore = async (req, res) => {
 
 /* Get current store for logged in chef */
 exports.getMyStore = async (req, res) => {
-  console.log('hello');
+  console.log('hello worlds');
   try {
     await req.user.populate({ path: 'store' }).execPopulate();
     res.json(req.user.store);
