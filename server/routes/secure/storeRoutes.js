@@ -1,4 +1,5 @@
 const router = require('express').Router(),
+  dishRoutes = require('../secure/dishRoutes'),
   { isChef } = require('../../middleware/authorization'),
   {
     createStore,
@@ -9,6 +10,8 @@ const router = require('express').Router(),
     getSpecificStore
   } = require('../../controllers/stores');
 
+//api/stores/storeid/dishes
+router.use('/:storeId/dishes', dishRoutes);
 // Allows a user that is a chef to create a new store
 router.route('/').post(isChef(), createStore);
 

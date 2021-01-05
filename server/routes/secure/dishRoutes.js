@@ -1,4 +1,4 @@
-const router = require('express').Router();
+const router = require('express').Router({ mergeParams: true });
 
 const {
   getAlldishes,
@@ -11,7 +11,7 @@ const {
 //get all dishes
 router.get('/', getAlldishes);
 //get a single dishes using different queries in slug to find the dish
-router.get('/::id', getADish);
+router.get('/:id', getADish);
 //create a dish
 router.post('/', createDish);
 //update a dish using different queries in slug to find the dish

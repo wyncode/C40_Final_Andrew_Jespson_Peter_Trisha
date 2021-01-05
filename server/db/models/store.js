@@ -105,7 +105,9 @@ const StoreSchema = new Schema(
       require: true
     }
   },
-  { timestamps: true }
+  { timestamps: true },
+  { toJSON: { virtuals: true } },
+  { toObject: { virtuals: true } }
 );
 
 //virtual relationship with mealSet
