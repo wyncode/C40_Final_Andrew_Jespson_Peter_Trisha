@@ -1,22 +1,22 @@
-const router = require('express').Router();
-
-const {
-  getAlldishes,
-  getADish,
-  createDish,
-  updateDish,
-  deleteDish
-} = require('../../controllers/dish');
+const router = require('express').Router(),
+  { isChef } = require('../../middleware/authorization'),
+  {
+    getAlldishes,
+    getADish,
+    createDish,
+    updateDish,
+    deleteDish
+  } = require('../../controllers/dish');
 
 //get all dishes
 router.get('/', getAlldishes);
 //get a single dishes using different queries in slug to find the dish
-router.get('/::id', getADish);
+router.get('/:id', getADish);
 //create a dish
-router.post('/', createDish);
+router.post('/', isChef(), createDish);
 //update a dish using different queries in slug to find the dish
-router.put('/:id', updateDish);
+router.put('/:id', isChef(), updateDish);
 //delete a dish using different queries in slug to find the dish
-router.delete('/:id', deleteDish);
+router.delete('/:id', isChef(), deleteDish);
 
 module.exports = router;

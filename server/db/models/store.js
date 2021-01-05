@@ -4,7 +4,7 @@ const Dish = require('./dish'),
 
 const Schema = mongoose.Schema;
 
-const StoreSchema = new Schema(
+const storeSchema = new Schema(
   {
     chefName: {
       type: String,
@@ -104,7 +104,7 @@ const StoreSchema = new Schema(
 
 //virtual relationship with mealSet
 
-StoreSchema.virtual('mealSets', {
+storeSchema.virtual('mealSets', {
   ref: 'MealSet',
   localField: '_id',
   foreignField: 'store',
@@ -112,7 +112,7 @@ StoreSchema.virtual('mealSets', {
 });
 
 //virtual relationship with Dish
-StoreSchema.virtual('dishes', {
+storeSchema.virtual('dishes', {
   ref: 'Dish',
   localField: '_id',
   foreignField: 'store',
@@ -121,7 +121,7 @@ StoreSchema.virtual('dishes', {
 
 //adding mongoose middleware to delete all dish and Mealset when
 //store is deleted
-StoreSchema.pre('remove', async function (next) {
+storeSchema.pre('remove', async function (next) {
   const store = this;
   await MealSet.deleteMany({
     store: store._id
@@ -132,5 +132,5 @@ StoreSchema.pre('remove', async function (next) {
   next();
 });
 
-const Store = mongoose.model('Store', StoreSchema);
+const Store = mongoose.model('Store', storeSchema);
 module.exports = Store;
