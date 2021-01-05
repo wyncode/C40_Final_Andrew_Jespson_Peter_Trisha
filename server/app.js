@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'production') {
 
 //  Authentication Middleware
 app.use('/api/*', passport.authenticate('jwt', { session: false }));
-app.use('/api/stores/mealsets', mealSetRouter);
+app.use('/api/mealsets', mealSetRouter);
 
 app.use('/api/stores', storeRouter);
 app.use('/api/dishes', dishRouter);

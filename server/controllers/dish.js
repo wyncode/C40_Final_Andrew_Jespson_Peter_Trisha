@@ -21,28 +21,12 @@ const getADish = async (req, res) => {
       path: 'store',
       select: 'chefName'
     });
-    if (!dish) res.status(404).send();
+    if (!dish) res.status(404).json({ error: 'dish not found' });
     res.json(dish);
   } catch (e) {
     res.status(400).json({ error: e.toString() });
   }
 };
-
-// exports.getSpecificDish = async (req, res) => {
-//   try {
-//     const _id = req.params.id;
-//     if (!mongoose.Types.ObjectId.isValid(_id)) {
-//       return res.status(400).send('not a valid');
-//     }
-//     const dish = await Dish.findOne({
-//       _id
-//     });
-//     if (!dish) return res.status(404).send();
-//     res.json(dish);
-//   } catch (e) {
-//     res.status(500).json({ error: e.toString() });
-//   }
-// };
 
 //creste dish
 const createDish = async (req, res) => {
