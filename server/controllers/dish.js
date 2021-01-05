@@ -37,6 +37,12 @@ const createDish = async (req, res) => {
       owner: req.user._id
     });
     await dish.save();
+    await Store.findByIdAndUpdate(
+      {
+        _id: req.user.chefStore
+      },
+      { serviceMenu: dish._id }
+    );
     res.status(201).json(dish);
   } catch (e) {
     res.status(400).json({ error: e.toString() });
