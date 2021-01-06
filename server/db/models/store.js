@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Dish = require('./dish'),
-  MealSet = require('./mealSet');
+  MealSet = require('./mealSet'),
+  geocoder = require('../../middleware/GEOjson/index');
 
 const Schema = mongoose.Schema;
 
@@ -44,19 +45,26 @@ const storeSchema = new Schema(
       zipcode: { type: Number },
       Country: { type: String }
     },
+    website: {
+      type: String
+    },
+    foodType: {
+      type: String
+    },
     operatingHours: {
-      type: Number,
+      type: String,
       required: true
     },
-    priceRange: {
+    serviceFee: {
+      type: String,
+      required: true
+    },
+    specialRequest: {
       type: String,
       required: true
     },
     availabilityCalender: {
       type: Object
-    },
-    website: {
-      type: String
     },
     mediaGallery: [
       {
@@ -75,9 +83,6 @@ const storeSchema = new Schema(
         ref: 'MealSet'
       }
     ],
-    availabilityCalender: {
-      type: Object
-    },
     socialHandle: [
       {
         Instagram: {

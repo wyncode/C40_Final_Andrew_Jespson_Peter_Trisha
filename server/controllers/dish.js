@@ -51,14 +51,12 @@ const createDish = async (req, res) => {
 
 //update a dsh
 const updateDish = async (req, res) => {
-  const updates = Object.keys(req.body);
   try {
     const dish = await Dish.findByIdAndUpdate({
       ...req.body,
       _id: req.params.id
     });
     if (!dish) return res.status(404).json({ error: 'dish not found' });
-    updates.forEach((update) => (dish[update] = req.body[update]));
     await dish.save();
     res.json(dish);
   } catch (e) {

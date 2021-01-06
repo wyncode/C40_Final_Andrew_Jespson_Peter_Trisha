@@ -5,6 +5,7 @@ export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [currentUserStore, setcurrentUserStore] = useState(null);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const user = sessionStorage.getItem('user');
@@ -28,7 +29,9 @@ export const AppContextProvider = ({ children }) => {
         currentUser,
         setCurrentUser,
         loading,
-        setLoading
+        setLoading,
+        currentUserStore,
+        setcurrentUserStore
       }}
     >
       {children}
