@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Dish = require('./dish'),
-  MealSet = require('./mealSet');
+  MealSet = require('./mealSet'),
+  geocoder = require('../../middleware/GEOjson/index');
 
 const Schema = mongoose.Schema;
 
