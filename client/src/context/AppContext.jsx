@@ -8,6 +8,7 @@ export const AppContextProvider = ({ children }) => {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const user = sessionStorage.getItem('user');
+  const [currentStore, setCurrentStore] = useState(null);
 
   useEffect(() => {
     if (user && !currentUser) {
@@ -28,7 +29,9 @@ export const AppContextProvider = ({ children }) => {
         currentUser,
         setCurrentUser,
         loading,
-        setLoading
+        setLoading,
+        currentStore,
+        setCurrentStore
       }}
     >
       {children}
