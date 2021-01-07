@@ -23,14 +23,6 @@ exports.getMyStore = async (req, res) => {
   console.log('hello worlds');
   try {
     await req.user.populate({ path: 'store' }).execPopulate();
-    // .populate("serviceMenu")
-    // .exec((err, storeWithServiceMenu) => {
-    //   if (err) {
-    //     res.status(500).json({ error: e.toString() });
-    //   } else {
-    //     res.status(200).json(storeWithServiceMenu);
-    //   }
-    // });
     res.json(req.user.store);
   } catch (e) {
     res.status(500).json({ error: e.toString() });

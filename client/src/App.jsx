@@ -5,6 +5,7 @@ import ChefRegister from './pages/chefregister';
 import UserRegister from './pages/userregistration';
 import DashHompage from './pages/user/Homepage';
 import Login from './pages/login';
+import ChefStore from './pages/ChefStore';
 
 import './App.css';
 
@@ -18,6 +19,7 @@ function App() {
           <Route exact path="/chef-register" component={ChefRegister} />
           <Route exact path="/user-register" component={UserRegister} />
           <Route exact path="/Dashboard" component={DashHompage} />
+          <Route exact path="/store" component={ChefStore} />
         </Switch>
       </BrowserRouter>
     </AppContextProvider>
