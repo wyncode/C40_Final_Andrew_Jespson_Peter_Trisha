@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 try {
-  mongoose.connect(process.env.ATLAS_URI, {
+  mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
