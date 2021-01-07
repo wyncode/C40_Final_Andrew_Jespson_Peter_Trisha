@@ -4,11 +4,10 @@ const Schema = mongoose.Schema;
 const userReviewSchema = new Schema(
   {
     // ReviewId: { type: String, required: true, trim: true },
-    isChef: { type: Boolean, default: false },
-    user: { type: String, ref: User },
-    rating: { type: [] / Number, required: true },
-    returningCustomer: { type: String, required: true },
-    isUser: { type: Boolean, default: false }
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    ratingTitle: { type: String, required: true },
+    ratingComment: { type: String, required: true },
+    returningCustomer: { type: String, required: true }
   },
   { timestamps: true }
 );
