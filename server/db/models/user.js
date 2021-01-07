@@ -98,6 +98,10 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String
+    },
+    chefStore: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Store'
     }
   },
   {

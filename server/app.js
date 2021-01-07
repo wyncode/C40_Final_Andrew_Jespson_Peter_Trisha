@@ -10,7 +10,8 @@ const express = require('express'),
   openRoutes = require('./routes/open'),
   mealSetRouter = require('./routes/secure/mealsetRoutes'),
   dishRouter = require('./routes/secure/dishRoutes'),
-  storeRouter = require('./routes/secure/storeRoutes');
+  storeRouter = require('./routes/secure/storeRoutes'),
+  bookingRouter = require('./routes/secure/bookingRoutes');
 
 // Parse incoming JSON into objects
 app.use(express.json());
@@ -30,10 +31,11 @@ if (process.env.NODE_ENV === 'production') {
 
 //  Authentication Middleware
 app.use('/api/*', passport.authenticate('jwt', { session: false }));
-app.use('/api/stores/mealsets', mealSetRouter);
+app.use('/api/mealsets', mealSetRouter);
 
 app.use('/api/stores', storeRouter);
 app.use('/api/dishes', dishRouter);
+app.use('/api/bookings', bookingRouter);
 
 // Handle React routing, return all requests to React app
 if (process.env.NODE_ENV === 'production') {

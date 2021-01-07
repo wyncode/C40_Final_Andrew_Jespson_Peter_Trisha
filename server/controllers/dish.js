@@ -1,5 +1,7 @@
-const Dish = require('../db/models/dish');
-const slugify = require('slugify');
+const Dish = require('../db/models/dish'),
+  mongoose = require('mongoose'),
+  Store = require('../db/models/store');
+//const slugify = require('slugify');
 
 //get All dish
 const getAlldishes = async (req, res, next) => {
@@ -11,11 +13,15 @@ const getAlldishes = async (req, res, next) => {
   }
 };
 
-//get a dish
+// Get a Specific Dish
 const getADish = async (req, res) => {
+  console.log('hello');
   try {
-    const dish = await Dish.findOne({ slug: req.params.slug }).exec();
-    if (!dish) return res.status(404).send();
+    const dish = await Dish.findById(req.params.id).populate({
+      path: 'store',
+      select: 'chefName'
+    });
+    if (!dish) res.status(404).json({ error: 'dish not found' });
     res.json(dish);
   } catch (e) {
     res.status(400).json({ error: e.toString() });
@@ -25,12 +31,19 @@ const getADish = async (req, res) => {
 //creste dish
 const createDish = async (req, res) => {
   try {
-    req.body.slug = slugify(req.body.title);
-    const newDish = new Dish({
-      ...req.body
+    const dish = new Dish({
+      ...req.body,
+      store: req.user.chefStore,
+      owner: req.user._id
     });
-    newDish.save();
-    res.status(201).json(task);
+    await dish.save();
+    await Store.findByIdAndUpdate(
+      {
+        _id: req.user.chefStore
+      },
+      { $push: { serviceMenu: dish._id } }
+    );
+    res.status(201).json(dish);
   } catch (e) {
     res.status(400).json({ error: e.toString() });
   }
@@ -38,15 +51,14 @@ const createDish = async (req, res) => {
 
 //update a dsh
 const updateDish = async (req, res) => {
+  const updates = Object.keys(req.body);
   try {
-    const dish = await Dish.findOneAndUpdate(
-      {
-        slug: req.params.slug,
-        owner: req.user._id
-      },
-      req.body
-    ).exec();
-    if (!dish) return res.status(404).json({ error: 'task not found' });
+    const dish = await Dish.findByIdAndUpdate({
+      ...req.body,
+      _id: req.params.id
+    });
+    if (!dish) return res.status(404).json({ error: 'dish not found' });
+    updates.forEach((update) => (dish[update] = req.body[update]));
     await dish.save();
     res.json(dish);
   } catch (e) {
@@ -57,10 +69,15 @@ const updateDish = async (req, res) => {
 //delete Dish
 const deleteDish = async (req, res) => {
   try {
-    const dish = await Dish.findOneAndDelete({
-      slug: req.params.slug,
-      owner: req.user._id
+    const dish = await Dish.findByIdAndDelete({
+      _id: req.params.id
     });
+    await Store.findByIdAndUpdate(
+      {
+        _id: req.user.chefStore
+      },
+      { $pull: { serviceMenu: dish._id } }
+    );
     if (!dish) return res.status(404).json({ error: 'Dish not found' });
     res.json({ message: 'Dish has been deleted' });
   } catch (e) {
