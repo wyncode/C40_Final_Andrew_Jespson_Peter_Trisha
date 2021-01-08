@@ -5,9 +5,8 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 
-const DashHompage = () => {
+const DashHomepage = () => {
   const history = useHistory();
-  const { setCharities, setFavoriteChefs } = useContext(AppContext);
 
   //get order history endpoint
   const orderHistory = async () => {
@@ -77,4 +76,4 @@ const DashHompage = () => {
   );
 };
 
-export default DashHompage;
+export default DashHomepage;
