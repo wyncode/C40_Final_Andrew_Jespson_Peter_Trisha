@@ -29,14 +29,14 @@ const StoreForm = ({ history }) => {
         <input
           id="chefName"
           type="chefName"
-          placeholder="what's you Store name?"
+          placeholder="What's your store name?"
           name="chefName"
           onChange={handleChange}
         />
         <input
           id="bio"
           type="bio"
-          placeholder="Describe you store"
+          placeholder="Describe your store."
           name="bio"
           onChange={handleChange}
         />
