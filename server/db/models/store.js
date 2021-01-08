@@ -121,7 +121,7 @@ storeSchema.virtual('dishes', {
 });
 
 //adding GEOJson
-StoreSchema.pre('save', async function (next) {
+storeSchema.pre('save', async function (next) {
   const geoloc = await geocoder.geocode(this.address);
   this.location = {
     type: 'Point',
