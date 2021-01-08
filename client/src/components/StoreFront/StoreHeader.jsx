@@ -1,23 +1,35 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../../context/AppContext';
-import axios from 'axios';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 const StoreHeader = () => {
-  const { currentStore, setCurrentStore } = useContext(AppContext);
-  useEffect(async () => {
-    const data = await axios.get(`api/stores/:id`);
-    setCurrentStore(data.data);
-  }, []);
+  const { store } = useContext(AppContext);
+
+  /* Creating a re route in case there isn't a story, */
+
   return (
-    <div>
-      <h2> {currentStore?.chefName} </h2>
-      <h2> {currentStore?.priceRange} </h2>
-      <h3> {currentStore?.foodType} </h3>
-      <h4> Hours: </h4>
-      <h3> {currentStore?.operatingHours} </h3>
-      <h4> Service Fee: </h4>
-      <h4> {currentStore?.serviceFee} </h4>
-    </div>
+    <Box color="text.primary">
+      <Typography variant="h6" gutterBottom>
+        {' '}
+        {store?.chefName}{' '}
+      </Typography>
+      <Typography variant="h4" gutterBottom>
+        {' '}
+        {store?.priceRange}{' '}
+      </Typography>
+      <Typography variant="subtitle1">
+        <span>{store?.foodType}</span>
+      </Typography>
+      <Typography variant="subtitle1">
+        <span>Hours:</span>
+      </Typography>
+      <Typography variant="subtitle1">
+        <span>{store?.operatingHours}</span>
+      </Typography>
+      <Typography variant="subtitle1"> Service Fee: </Typography>
+      <Typography variant="subtitle1"> {store?.serviceFee} </Typography>
+    </Box>
   );
 };
 
