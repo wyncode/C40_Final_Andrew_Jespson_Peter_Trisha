@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('mongoose-type-url');
 const Dish = require('./dish'),
   MealSet = require('./mealSet'),
   geocoder = require('../../middleware/GEOjson/index');
@@ -53,9 +54,6 @@ const storeSchema = new Schema(
       type: String,
       required: true
     },
-    availabilityCalender: {
-      type: Object
-    },
     website: {
       type: String
     },
@@ -82,16 +80,24 @@ const storeSchema = new Schema(
     socialHandle: [
       {
         Instagram: {
-          type: String
+          type: mongoose.SchemaTypes.Url
         },
         Facebook: {
-          type: String
+          type: mongoose.SchemaTypes.Url
         },
         Twitter: {
-          type: String
+          type: mongoose.SchemaTypes.Url
         }
       }
     ],
+    serviceFee: {
+      type: Number,
+      required: true
+    },
+    foodType: {
+      type: String,
+      required: true
+    },
     allergyInfo: {
       type: String
     },
