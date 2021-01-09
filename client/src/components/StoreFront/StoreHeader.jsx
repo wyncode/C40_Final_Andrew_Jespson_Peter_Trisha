@@ -11,12 +11,10 @@ const StoreHeader = () => {
   return (
     <Box color="text.primary">
       <Typography variant="h6" gutterBottom>
-        {' '}
-        {store?.chefName}{' '}
+        {store?.chefName}
       </Typography>
       <Typography variant="h4" gutterBottom>
-        {' '}
-        {store?.priceRange}{' '}
+        {store?.priceRange}
       </Typography>
       <Typography variant="subtitle1">
         <span>{store?.foodType}</span>
