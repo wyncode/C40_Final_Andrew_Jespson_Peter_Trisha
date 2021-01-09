@@ -46,7 +46,7 @@ const ALaCarteMenu = () => {
             <ListItemText
               id={dishId}
               primary={`${dish?.dishName}`}
-              secondary={'$'`${dish?.price}`}
+              secondary={`${dish?.price}`}
               third={`${dish?.specialDescription}`}
             />
             <ListItemSecondaryAction>

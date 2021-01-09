@@ -9,7 +9,7 @@ const ChefStore = () => {
 
   useEffect(() => {
     axios
-      .get(`api/stores/${store._id}`)
+      .get(`api/stores/5ff37cea949fdc35bbdd57b5`)
       .then((res) => {
         setStore(res.data);
         console.log(res.data);
