@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../../context/AppContext';
 import axios from 'axios';
 import FacebookIcon from '@material-ui/icons/Facebook';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import TwitterIcon from '@material-ui/icons/Twitter';
 
 const AboutSection = () => {
   const { currentStore, setCurrentStore } = useContext(AppContext);
@@ -21,6 +23,16 @@ const AboutSection = () => {
       {currentStore?.socialHandle[0].Instagram && (
         <a href={currentStore?.socialHandle[0].Instagram}>
           <FacebookIcon />
+        </a>
+      )}
+      {currentStore?.socialHandle[1].Facebook && (
+        <a href={currentStore?.socialHandle[1].Facebook}>
+          <InstagramIcon />
+        </a>
+      )}
+      {currentStore?.socialHandle[2].Twitter && (
+        <a href={currentStore?.socialHandle[2].Twitter}>
+          <TwitterIcon />
         </a>
       )}
     </div>
