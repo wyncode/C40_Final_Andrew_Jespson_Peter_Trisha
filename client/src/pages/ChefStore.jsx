@@ -17,6 +17,7 @@ const ChefStore = ({ match }) => {
         setStore(res.data);
         console.log(res.data);
         setLoading(false);
+        sessionStorage.setItem('currentStore', res.data);
       })
       .catch((e) => console.log(e));
   }, [setStore, loading, setLoading, id]);

@@ -1,33 +1,73 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../../context/AppContext';
-import Box from '@material-ui/core/Box';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary
+  }
+}));
 
 const StoreHeader = () => {
   const { store } = useContext(AppContext);
-
-  /* Creating a re route in case there isn't a story, */
+  const classes = useStyles();
+  /* Creating a re route in case there isn't a store here */
 
   return (
-    <Box color="text.primary">
-      <Typography variant="h6" gutterBottom>
-        {store?.chefName}
-      </Typography>
-      <Typography variant="h4" gutterBottom>
-        {store?.priceRange}
-      </Typography>
-      <Typography variant="subtitle1">
-        <span>{store?.foodType}</span>
-      </Typography>
-      <Typography variant="subtitle1">
-        <span>Hours:</span>
-      </Typography>
-      <Typography variant="subtitle1">
-        <span>{store?.operatingHours}</span>
-      </Typography>
-      <Typography variant="subtitle1"> Service Fee: </Typography>
-      <Typography variant="subtitle1"> {store?.serviceFee} </Typography>
-    </Box>
+    <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}></Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Typography variant="h6" gutterBottom>
+              {store?.chefName}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Typography variant="h4" gutterBottom>
+              {store?.priceRange}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Typography variant="subtitle1">{store?.foodType}</Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Typography variant="subtitle1">Hours:</Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Typography variant="subtitle1">{store?.operatingHours}</Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Typography variant="subtitle1"> Service Fee: </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Typography variant="subtitle1"> {store?.serviceFee} </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 

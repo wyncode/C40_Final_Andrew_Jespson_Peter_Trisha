@@ -12,6 +12,7 @@ export const AppContextProvider = ({ children }) => {
   const history = useHistory();
 
   const user = sessionStorage.getItem('user');
+  const currentStore = sessionStorage.getItem('currentStore');
 
   useEffect(() => {
     if (user && !currentUser) {
@@ -25,6 +26,20 @@ export const AppContextProvider = ({ children }) => {
         });
     }
   }, [currentUser, user]);
+
+  useEffect(() => {
+    if (currentStore && !store) {
+      axios
+        .get(`/api/stores/${currentStore.id}`)
+        .then(({ data }) => {
+          setStore(data);
+          console.log(data);
+        })
+        .catch((err) => {
+          swal('Oops!', err.toString());
+        });
+    }
+  }, []);
 
   return (
     <AppContext.Provider

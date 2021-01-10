@@ -47,7 +47,6 @@ const ALaCarteMenu = () => {
               id={dishId}
               primary={`${dish?.dishName}`}
               secondary={`${dish?.price}`}
-              third={`${dish?.specialDescription}`}
             />
             <ListItemSecondaryAction>
               <Checkbox
