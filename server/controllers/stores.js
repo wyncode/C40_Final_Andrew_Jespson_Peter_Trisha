@@ -79,12 +79,16 @@ exports.getStoresByCity = async (req, res) => {
 /* allows a user to view a specific store */
 exports.getSpecificStore = async (req, res) => {
   try {
-    const _id = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(_id)) {
-      return res.status(400).send('not a valid id');
-    }
-    const store = await Store.findOne({
-      _id
+    // const _id = req.params.id;
+    // if (!mongoose.Types.ObjectId.isValid(_id)) {
+    //   return res.status(400).send('not a valid id');
+    // }
+    // const store = await Store.findOne({
+    //   _id
+    // });
+    const store = await Store.findById(req.params.id).populate({
+      path: 'serviceMenu',
+      select: 'dishName price specialDescription'
     });
     if (!store) return res.status(404).send();
     res.json(store);

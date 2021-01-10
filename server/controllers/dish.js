@@ -6,7 +6,9 @@ const Dish = require('../db/models/dish'),
 //get All dish
 const getAlldishes = async (req, res, next) => {
   try {
-    const dish = await Dish.find({});
+    const dish = await Dish.find({})
+      .populate('store', 'chefName foodType')
+      .exec();
     res.json(dish);
   } catch (e) {
     res.status(400).json({ error: e.toString() });
