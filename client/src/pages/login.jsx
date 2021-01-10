@@ -21,8 +21,8 @@ const Login = ({ history }) => {
       sessionStorage.setItem('user', response.data);
       if (currentUser.role === 'chef') {
         history.push('/store');
-      } else if (currentUser.role) {
-        history.push('/dashboard');
+      } else {
+        history.push('/shop');
       }
       history.push('/shop');
     } catch (error) {

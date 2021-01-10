@@ -15,7 +15,7 @@ const UserRegister = ({ history }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/users/login', formData);
+      const response = await axios.post('/api/users/register', formData);
       setCurrentUser(response.data);
       console.log(response.data);
       sessionStorage.setItem('user', response.data);

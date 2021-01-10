@@ -3,19 +3,19 @@ const Dish = require('./dish'),
   MealSet = require('./mealSet'),
   geocoder = require('../../middleware/GEOjson/index');
 
-const Schema = mongoose.Schema;
-
-const storeSchema = new Schema(
+const StoreSchema = new mongoose.Schema(
   {
     chefName: {
       type: String,
-      required: true
+      required: true,
+      text: true
     },
     bio: {
       type: String,
       required: true,
       maxlength: 250,
-      required: true
+      required: true,
+      text: true
     },
     careerHighlights: {
       type: String
@@ -46,16 +46,12 @@ const storeSchema = new Schema(
       Country: { type: String }
     },
     operatingHours: {
-      type: Number,
-      required: true
-    },
-    priceRange: {
-      type: String,
-      required: true
+      type: String
     },
     availabilityCalender: {
       type: Object
     },
+    averageCost: { type: Number },
     website: {
       type: String
     },
@@ -76,9 +72,6 @@ const storeSchema = new Schema(
         ref: 'MealSet'
       }
     ],
-    availabilityCalender: {
-      type: Object
-    },
     socialHandle: [
       {
         Instagram: {
@@ -105,7 +98,7 @@ const storeSchema = new Schema(
 
 //virtual relationship with mealSet
 
-storeSchema.virtual('mealSets', {
+StoreSchema.virtual('mealSets', {
   ref: 'MealSet',
   localField: '_id',
   foreignField: 'store',
@@ -113,7 +106,7 @@ storeSchema.virtual('mealSets', {
 });
 
 //virtual relationship with Dish
-storeSchema.virtual('dishes', {
+StoreSchema.virtual('dishes', {
   ref: 'Dish',
   localField: '_id',
   foreignField: 'store',
@@ -140,7 +133,7 @@ StoreSchema.pre('save', async function (next) {
 
 //adding mongoose middleware to delete all dish and Mealset when
 //store is deleted
-storeSchema.pre('remove', async function (next) {
+StoreSchema.pre('remove', async function (next) {
   const store = this;
   await MealSet.deleteMany({
     store: store._id
@@ -151,5 +144,5 @@ storeSchema.pre('remove', async function (next) {
   next();
 });
 
-const Store = mongoose.model('Store', storeSchema);
+const Store = mongoose.model('Store', StoreSchema);
 module.exports = Store;

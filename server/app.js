@@ -8,6 +8,7 @@ const express = require('express'),
   passport = require('./middleware/authentication'),
   cookieParser = require('cookie-parser'),
   openRoutes = require('./routes/open'),
+  userRouter = require('./routes/secure/usersRoutes'),
   mealSetRouter = require('./routes/secure/mealsetRoutes'),
   dishRouter = require('./routes/secure/dishRoutes'),
   storeRouter = require('./routes/secure/storeRoutes'),
@@ -31,6 +32,7 @@ if (process.env.NODE_ENV === 'production') {
 
 //  Authentication Middleware
 app.use('/api/*', passport.authenticate('jwt', { session: false }));
+app.use('/api/users', userRouter);
 app.use('/api/mealsets', mealSetRouter);
 
 app.use('/api/stores', storeRouter);

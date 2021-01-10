@@ -4,9 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
     "axios": "^0.21.0",
     "bcryptjs": "^2.4.3",
-    "bootstrap": "^4.5.3",
     "cloudinary": "^1.23.0",
     "concurrently": "^5.3.0",
     "cookie-parser": "^1.4.5",
@@ -43,6 +44,7 @@
     "client": "cd client && yarn run start",
     "dev": "concurrently --kill-others-on-fail \"yarn run server\" \"yarn run client\"",
     "heroku-postbuild": "cd client && yarn && yarn run build",
-    "prettify": "prettier '*/**/*.js' '*/**/*.jsx' '*/**/*.html' '*/**/*.css' --write"
+    "prettify": "prettier '*/**/*.js' '*/**/*.jsx' '*/**/*.html' '*/**/*.css' --write",
+    "db:reset": "node server/db/seeds/seeds.js"
   }
 }

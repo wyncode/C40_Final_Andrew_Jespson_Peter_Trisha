@@ -55,12 +55,6 @@ const userSchema = new mongoose.Schema(
     ],
     phoneNumber: {
       type: String,
-      validate: {
-        validator: function (v) {
-          return /\d{3}-\d{3}-\d{4}/.test(v);
-        },
-        message: (props) => `${props.value} is not a valid phone number!`
-      },
       required: [true, 'User phone number required'],
       unique: true
     },
@@ -74,8 +68,8 @@ const userSchema = new mongoose.Schema(
     },
     zip: { type: Number },
     dateOfBirth: {
-      type: String,
-      required: true
+      type: String
+      //required: true
     },
     servSafeCertification: {
       type: Boolean
