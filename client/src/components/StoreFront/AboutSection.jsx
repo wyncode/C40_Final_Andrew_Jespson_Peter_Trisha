@@ -18,7 +18,11 @@ const AboutSection = () => {
       <h3>Special Certifications: {currentStore?.specializedCertifications}</h3>
       <h3> Highlights: {currentStore?.careerHighlights} </h3>
       <h3> Website: {currentStore?.website} </h3>
-      <FacebookIcon />
+      {currentStore?.socialHandle[0].Instagram && (
+        <a href={currentStore?.socialHandle[0].Instagram}>
+          <FacebookIcon />
+        </a>
+      )}
     </div>
   );
 };

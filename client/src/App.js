@@ -21,7 +21,7 @@ function App() {
           <Route exact path="/chef-register" component={ChefRegister} />
           <Route exact path="/user-register" component={UserRegister} />
           <Route exact path="/Dashboard" component={DashHompage} />
-          <Route exact path="/stores" component={ChefStore} />
+          <Route exact path="/stores/:id" component={ChefStore} />
         </Switch>
       </BrowserRouter>
     </AppContextProvider>
