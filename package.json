@@ -46,5 +46,8 @@
     "heroku-postbuild": "cd client && yarn && yarn run build",
     "prettify": "prettier '*/**/*.js' '*/**/*.jsx' '*/**/*.html' '*/**/*.css' --write",
     "db:reset": "node server/db/seeds/seeds.js"
+  },
+  "engines": {
+    "node": "14.x.x"
   }
 }
