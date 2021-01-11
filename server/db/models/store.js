@@ -4,9 +4,7 @@ const Dish = require('./dish'),
   MealSet = require('./mealSet'),
   geocoder = require('../../middleware/GEOjson/index');
 
-const Schema = mongoose.Schema;
-
-const storeSchema = new Schema(
+const StoreSchema = new mongoose.Schema(
   {
     chefName: {
       type: String,
@@ -47,21 +45,14 @@ const storeSchema = new Schema(
       Country: { type: String }
     },
     operatingHours: {
-      type: Number,
-      required: true
-    },
-    priceRange: {
-      type: String,
-      required: true
+      type: String
     },
     website: {
       type: String
     },
-    mediaGallery: [
-      {
-        type: String
-      }
-    ],
+    mediaGallery: {
+      type: String
+    },
     serviceMenu: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -74,9 +65,6 @@ const storeSchema = new Schema(
         ref: 'MealSet'
       }
     ],
-    availabilityCalender: {
-      type: Object
-    },
     socialHandle: [
       {
         Instagram: {
@@ -101,6 +89,7 @@ const storeSchema = new Schema(
     allergyInfo: {
       type: String
     },
+    metadata: String,
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
@@ -111,7 +100,7 @@ const storeSchema = new Schema(
 
 //virtual relationship with mealSet
 
-storeSchema.virtual('mealSets', {
+StoreSchema.virtual('mealSets', {
   ref: 'MealSet',
   localField: '_id',
   foreignField: 'store',
@@ -119,7 +108,7 @@ storeSchema.virtual('mealSets', {
 });
 
 //virtual relationship with Dish
-storeSchema.virtual('dishes', {
+StoreSchema.virtual('dishes', {
   ref: 'Dish',
   localField: '_id',
   foreignField: 'store',
@@ -127,7 +116,7 @@ storeSchema.virtual('dishes', {
 });
 
 //adding GEOJson
-storeSchema.pre('save', async function (next) {
+StoreSchema.pre('save', async function (next) {
   const geoloc = await geocoder.geocode(this.address);
   this.location = {
     type: 'Point',
@@ -146,7 +135,7 @@ storeSchema.pre('save', async function (next) {
 
 //adding mongoose middleware to delete all dish and Mealset when
 //store is deleted
-storeSchema.pre('remove', async function (next) {
+StoreSchema.pre('remove', async function (next) {
   const store = this;
   await MealSet.deleteMany({
     store: store._id
@@ -156,6 +145,11 @@ storeSchema.pre('remove', async function (next) {
   });
   next();
 });
-
-const Store = mongoose.model('Store', storeSchema);
+StoreSchema.index({
+  chefName: 'text',
+  bio: 'text',
+  serviceMenu: 'text',
+  metadata: 'text'
+});
+const Store = mongoose.model('Store', StoreSchema);
 module.exports = Store;

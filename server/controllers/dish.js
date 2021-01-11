@@ -87,10 +87,21 @@ const deleteDish = async (req, res) => {
   }
 };
 
+const picDish = async (req, res) => {
+  try {
+    const fileStr = req.body.data;
+    const cloudinaryUploader = await cloudinary.uploader.upload(fileStr);
+    res.json({ msg: 'fileuploaded' });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+};
+
 module.exports = {
   getAlldishes,
   getADish,
   createDish,
   updateDish,
-  deleteDish
+  deleteDish,
+  picDish
 };

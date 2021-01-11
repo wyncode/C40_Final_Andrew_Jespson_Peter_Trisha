@@ -1,5 +1,8 @@
 const mongoose = require('mongoose'),
-  Store = require('../db/models/store');
+  Store = require('../db/models/store'),
+  geocoder = require('../middleware/GEOjson/index'),
+  querystring = require('querystring');
+cloudinary = require('../middleware/cloudinary/cloudinary');
 //User = require('../db/models/user');
 
 /* Create a store, for users that are chefs */
@@ -88,4 +91,53 @@ exports.getSpecificStore = async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: e.toString() });
   }
+};
+
+exports.getStoreByZip = async (req, res) => {
+  const { zipcode, distance } = req.params;
+
+  // Get lat/lng from geocoder
+  const loc = await geocoder.geocode(zipcode);
+  const lat = loc[0].latitude;
+  const lng = loc[0].longitude;
+
+  // Calc radius using radians
+  // Divide dist by radius of Earth
+  // Earth Radius = 3,963 mi / 6,378 km
+  const radius = distance / 3963;
+
+  const stores = await Store.find({
+    location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } }
+  });
+
+  res.status(200).json({
+    success: true,
+    count: stores.length,
+    data: stores
+  });
+};
+//upload to cloudinary
+exports.addMediaStore = async (req, res) => {
+  try {
+    const fileStr = req.body.data;
+    const cloudinaryUploader = cloudinary.uploader.upload(fileStr);
+    res.json({ msg: 'fileuploaded' });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+};
+
+exports.getAllStores = async (req, res) => {
+  const request = req.body;
+  let queryString = querystring.stringify(request);
+  console.log(queryString);
+  const stores = await Store.find({
+    $text: {
+      $search: queryString,
+      $caseSensitive: false,
+      $diacriticSensitive: true
+    }
+  });
+  console.log(stores);
+  res.json(stores);
 };

@@ -1,3 +1,4 @@
+const searchRouter = require('./searchRouter');
 const router = require('express').Router(),
   { isChef } = require('../../middleware/authorization'),
   {
@@ -6,11 +7,17 @@ const router = require('express').Router(),
     updateStore,
     deleteStore,
     getStoresByCity,
-    getSpecificStore
+    getSpecificStore,
+    getStoreByZip,
+    addMediaStore
   } = require('../../controllers/stores');
 
+router.use('/radius/:zipcode/:distance/', searchRouter);
 // Allows a user that is a chef to create a new store
 router.post('/', isChef(), createStore);
+
+//upload avatar
+//router.post('/mediaGallery', isChef(), addMediaStore);
 
 // Allows a user that is a chef to view their current store
 router.get('/currentStore', isChef(), getMyStore);
@@ -26,5 +33,7 @@ router.get('/address', getStoresByCity);
 
 //Allows a user to get a specific store
 router.get('/:id', getSpecificStore);
+
+router.get('/radius/:zipcode/:distance', getStoreByZip);
 
 module.exports = router;

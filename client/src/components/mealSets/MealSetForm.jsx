@@ -4,7 +4,7 @@ import axios from 'axios';
 import { AppContext } from '../../context/AppContext';
 import swal from 'sweetalert';
 
-const MealSetForm = () => {
+const MealSetForm = ({ history }) => {
   const [mealSet, setMealSet] = useState(null);
   const { setLoading } = useContext(AppContext);
   const handleChange = (e) => {

@@ -9,6 +9,7 @@ export const AppContextProvider = ({ children }) => {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [store, setStore] = useState([]);
+  const [stores, setStores] = useState([]);
   const history = useHistory();
 
   const user = sessionStorage.getItem('user');
@@ -49,7 +50,9 @@ export const AppContextProvider = ({ children }) => {
         loading,
         setLoading,
         store,
-        setStore
+        setStore,
+        stores,
+        setStores
       }}
     >
       {children}
