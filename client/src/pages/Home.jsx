@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
+import NavBar from '../components/Home/Textsearch';
+import storeByZipcodeandMiles from '../components/Home/ZipSearch';
 import StoreCard from '../components/Home/Storecard';
 import axios from 'axios';
 import swal from 'sweetalert';
@@ -24,9 +26,9 @@ const Home = () => {
   };
 
   return (
-    /* <HomeHeader />
-        <Search /> */
     <div>
+      <NavBar />
+      <storeByZipcodeandMiles />
       {stores.map((store) => {
         return (
           <div key={store.id}>

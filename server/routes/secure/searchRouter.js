@@ -1,6 +1,6 @@
 const router = require('express').Router({ mergeParams: true });
 const { getAllStores } = require('../../controllers/stores');
 
-router.get('/search', getAllStores);
+router.post('/search', getAllStores);
 
 module.exports = router;
