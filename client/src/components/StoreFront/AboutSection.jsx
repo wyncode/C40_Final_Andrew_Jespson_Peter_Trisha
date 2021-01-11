@@ -34,13 +34,13 @@ const AboutSection = () => {
       <h3>Special Certifications: {store?.specializedCertifications}</h3>
       <h3> Highlights: {store?.careerHighlights} </h3>
       <h3> Website: {store?.website} </h3>
-      <div>
+      {/*<div>
         {store?.socialHandle[0].Instagram && (
           <Link href={store?.socialHandle[0].Instagram} target="_blank">
             <InstagramIcon />
           </Link>
         )}
-        {/* {sessionStorage.getItem(currentStore) && (
+         {sessionStorage.getItem(currentStore) && (
         <Link href={sessionStorage.getItem(currentStore).socialHandle[1].Facebook}>
           <FacebookIcon />
         </Link>
@@ -49,8 +49,8 @@ const AboutSection = () => {
         <Link href={sessionStorage.getItem(currentStore).socialHandle[2].Twitter}>
           <TwitterIcon />
         </Link>
-      )}*/}
-      </div>
+      )}
+      </div> */}
     </div>
   );
 };
