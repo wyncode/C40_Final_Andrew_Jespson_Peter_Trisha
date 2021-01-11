@@ -7,8 +7,9 @@ import { useParams } from 'react-router-dom';
 // import TwitterIcon from '@material-ui/icons/Twitter';
 
 const AboutSection = () => {
-  const { store, setStore } = useContext(AppContext);
+  const { store, setStore, loading, setLoading } = useContext(AppContext);
   const { id } = useParams();
+
   useEffect(async () => {
     const data = await axios.get(`api/stores/${id}`);
     setStore(data.data);
@@ -27,7 +28,12 @@ const AboutSection = () => {
       </h3>
       <h3 className="about-boxes"> Highlights: {store?.careerHighlights} </h3>
       <h3 className="about-boxes"> Website: {store?.website} </h3>
-      {/* //* {store?.socialHandle[0].Instagram && (
+    </div>
+  );
+};
+
+{
+  /* //* {store?.socialHandle[0].Instagram && (
         <a href={store?.socialHandle[0].Instagram}>
           <FacebookIcon />
         </a>
@@ -41,9 +47,23 @@ const AboutSection = () => {
         <a href={store?.socialHandle[2].Twitter}>
           <TwitterIcon />
         </a>
-      )}  */}
-    </div>
-  );
-};
+      )}  */
+}
+
+{
+  /* useEffect(() => {
+    console.log(id);
+    axios
+      .get(`/api/stores/${id}`)
+      .then((res) => {
+        setStore(res.data);
+        console.log(res.data);
+        setLoading(false);
+        sessionStorage.setItem('currentStore', res.data);
+      })
+      .then(console.log(sessionStorage))
+      .catch((e) => console.log(e));
+  }, [setStore, loading, setLoading, id]); */
+}
 
 export default AboutSection;

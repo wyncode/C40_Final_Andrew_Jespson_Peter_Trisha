@@ -43,8 +43,11 @@ const useStyles = makeStyles((theme) => ({
 export default function RecipeReviewCard() {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+  const currentStore = currentStore;
+  const mealSet = mealSet;
 
   const handleExpandClick = () => {
+    const dish = dish;
     setExpanded(!expanded);
     if (setExpanded === true) {
       return dish.setIncludes;
