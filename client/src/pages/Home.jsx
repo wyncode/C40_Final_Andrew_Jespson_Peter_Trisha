@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
 import StoreCard from '../components/Home/Storecard';
 import axios from 'axios';
-import swal from 'sweetalert';
+import NavBar from '../components/Home/NavBar';
 
 const Home = () => {
   const { stores, setStores, currentUser } = useContext(AppContext);
@@ -24,9 +24,8 @@ const Home = () => {
   };
 
   return (
-    /* <HomeHeader />
-        <Search /> */
     <div>
+      <NavBar />
       {stores.map((store) => {
         return (
           <div key={store.id}>

@@ -9,8 +9,6 @@ import Box from '@material-ui/core/Box';
 import ALaCarteMenu from './ALaCarteMenu';
 import AboutSection from './AboutSection';
 
-//import { AppContext } from '../context/AppContext';
-
 let TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 

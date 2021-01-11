@@ -1,13 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { AppContext } from '../../context/AppContext';
-import { AppBar, Toolbar, Grid, Card, TextField } from '@material-ui/core';
+import React from 'react';
+import { Grid, Card } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-
+import { useHistory } from 'react-router-dom';
 //styling in material UI
 
 const useStyles = makeStyles({
@@ -27,18 +24,21 @@ const useStyles = makeStyles({
 
 const StoreCard = ({ store }) => {
   const classes = useStyles();
-
+  const history = useHistory();
   return (
-    <div>
+    <div
+      onClick={() => history.push(`/stores/${store._id}`)}
+      style={{ cursor: 'pointer', width: '100vw' }}
+    >
       <Grid container direction="column" justify="center" alignItems="center">
-        <Card className={classes.root}>
-          <CardHeader title={store.chefName} subheader="September 14, 2016" />
-          <CardMedia className={classes.media} title="Paella dish" />
+        <Card className={classes.root} style={{ width: '100%' }}>
+          <CardHeader title={store.chefName} subheader={store.foodType} />
           <CardContent>
+            <Typography variant="body1" color="textSecondary" component="p">
+              {store.bio}
+            </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              This impressive paella is a perfect party dish and a fun meal to
-              cook together with your guests. Add 1 cup of frozen peas along
-              with the mussels, if you like.
+              {store.priceRange}
             </Typography>
           </CardContent>
         </Card>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -19,15 +19,11 @@ const useStyles = makeStyles((theme) => ({
 const StoreHeader = () => {
   const { store } = useContext(AppContext);
   const classes = useStyles();
-  /* Creating a re route in case there isn't a store here */
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Paper className={classes.paper}></Paper>
-        </Grid>
-        <Grid item xs={6}>
           <Paper className={classes.paper}>
             <Typography variant="h6" gutterBottom>
               {store?.chefName}
