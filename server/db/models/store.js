@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('mongoose-type-url');
 const Dish = require('./dish'),
   MealSet = require('./mealSet'),
   geocoder = require('../../middleware/GEOjson/index');
@@ -7,15 +8,13 @@ const StoreSchema = new mongoose.Schema(
   {
     chefName: {
       type: String,
-      required: true,
-      text: true
+      required: true
     },
     bio: {
       type: String,
       required: true,
       maxlength: 250,
-      required: true,
-      text: true
+      required: true
     },
     careerHighlights: {
       type: String
@@ -48,18 +47,12 @@ const StoreSchema = new mongoose.Schema(
     operatingHours: {
       type: String
     },
-    availabilityCalender: {
-      type: Object
-    },
-    averageCost: { type: Number },
     website: {
       type: String
     },
-    mediaGallery: [
-      {
-        type: String
-      }
-    ],
+    mediaGallery: {
+      type: String
+    },
     serviceMenu: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -75,19 +68,28 @@ const StoreSchema = new mongoose.Schema(
     socialHandle: [
       {
         Instagram: {
-          type: String
+          type: mongoose.SchemaTypes.Url
         },
         Facebook: {
-          type: String
+          type: mongoose.SchemaTypes.Url
         },
         Twitter: {
-          type: String
+          type: mongoose.SchemaTypes.Url
         }
       }
     ],
+    serviceFee: {
+      type: Number,
+      required: true
+    },
+    foodType: {
+      type: String,
+      required: true
+    },
     allergyInfo: {
       type: String
     },
+    metadata: String,
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
@@ -143,6 +145,11 @@ StoreSchema.pre('remove', async function (next) {
   });
   next();
 });
-
+StoreSchema.index({
+  chefName: 'text',
+  bio: 'text',
+  serviceMenu: 'text',
+  metadata: 'text'
+});
 const Store = mongoose.model('Store', StoreSchema);
 module.exports = Store;

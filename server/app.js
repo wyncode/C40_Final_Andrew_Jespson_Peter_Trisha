@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/api/*', passport.authenticate('jwt', { session: false }));
 app.use('/api/users', userRouter);
 app.use('/api/mealsets', mealSetRouter);
-
+app.use('/api/users', userRouter);
 app.use('/api/stores', storeRouter);
 app.use('/api/dishes', dishRouter);
 app.use('/api/bookings', bookingRouter);

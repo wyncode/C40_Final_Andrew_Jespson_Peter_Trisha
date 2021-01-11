@@ -1,6 +1,8 @@
 const mongoose = require('mongoose'),
   Store = require('../db/models/store'),
-  geocoder = require('../middleware/GEOjson/index');
+  geocoder = require('../middleware/GEOjson/index'),
+  querystring = require('querystring');
+cloudinary = require('../middleware/cloudinary/cloudinary');
 //User = require('../db/models/user');
 
 /* Create a store, for users that are chefs */
@@ -24,14 +26,6 @@ exports.getMyStore = async (req, res) => {
   console.log('hello worlds');
   try {
     await req.user.populate({ path: 'store' }).execPopulate();
-    // .populate("serviceMenu")
-    // .exec((err, storeWithServiceMenu) => {
-    //   if (err) {
-    //     res.status(500).json({ error: e.toString() });
-    //   } else {
-    //     res.status(200).json(storeWithServiceMenu);
-    //   }
-    // });
     res.json(req.user.store);
   } catch (e) {
     res.status(500).json({ error: e.toString() });
@@ -88,12 +82,9 @@ exports.getStoresByCity = async (req, res) => {
 /* allows a user to view a specific store */
 exports.getSpecificStore = async (req, res) => {
   try {
-    const _id = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(_id)) {
-      return res.status(400).send('not a valid id');
-    }
-    const store = await Store.findOne({
-      _id
+    const store = await Store.findById(req.params.id).populate({
+      path: 'serviceMenu',
+      select: 'dishName price specialDescription'
     });
     if (!store) return res.status(404).send();
     res.json(store);
@@ -124,4 +115,29 @@ exports.getStoreByZip = async (req, res) => {
     count: stores.length,
     data: stores
   });
+};
+//upload to cloudinary
+exports.addMediaStore = async (req, res) => {
+  try {
+    const fileStr = req.body.data;
+    const cloudinaryUploader = cloudinary.uploader.upload(fileStr);
+    res.json({ msg: 'fileuploaded' });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+};
+
+exports.getAllStores = async (req, res) => {
+  const request = req.body;
+  let queryString = querystring.stringify(request);
+  console.log(queryString);
+  const stores = await Store.find({
+    $text: {
+      $search: queryString,
+      $caseSensitive: false,
+      $diacriticSensitive: true
+    }
+  });
+  console.log(stores);
+  res.json(stores);
 };

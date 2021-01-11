@@ -8,12 +8,16 @@ const router = require('express').Router(),
     deleteStore,
     getStoresByCity,
     getSpecificStore,
-    getStoreByZip
+    getStoreByZip,
+    addMediaStore
   } = require('../../controllers/stores');
 
-router.use('/radius/:zipcode/:distance/search', searchRouter);
+router.use('/radius/:zipcode/:distance/', searchRouter);
 // Allows a user that is a chef to create a new store
 router.post('/', isChef(), createStore);
+
+//upload avatar
+//router.post('/mediaGallery', isChef(), addMediaStore);
 
 // Allows a user that is a chef to view their current store
 router.get('/currentStore', isChef(), getMyStore);

@@ -5,7 +5,8 @@ const router = require('express').Router(),
     getADish,
     createDish,
     updateDish,
-    deleteDish
+    deleteDish,
+    picDish
   } = require('../../controllers/dish');
 
 //get all dishes
@@ -14,7 +15,10 @@ router.get('/', getAlldishes);
 router.get('/:id', getADish);
 //create a dish
 router.post('/', isChef(), createDish);
+//router.post('/image', isChef(), picDish);
 //update a dish using different queries in slug to find the dish
+//update a dish using different queries in slug to find the dish
+router.put('/:id', isChef(), updateDish);
 router.put('/:id', isChef(), updateDish);
 //delete a dish using different queries in slug to find the dish
 router.delete('/:id', isChef(), deleteDish);
