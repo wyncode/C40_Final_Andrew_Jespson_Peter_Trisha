@@ -1,47 +1,66 @@
 const mongoose = require('mongoose');
 
-const dishSchema = new mongoose.Schema({
+const DishSchema = new mongoose.Schema({
   dishName: {
     type: String,
     required: true,
-    trim: true,
-    text: true
-  },
-  slug: {
-    type: String,
-    unique: true,
-    lowercase: true,
-    index: true
+    trim: true
   },
   price: {
     type: Number,
-    required: true,
-    trim: true,
-    text: true
+    required: true
   },
   image: {
     type: String
   },
   specialDescription: {
     type: String,
-    trim: true,
-    text: true
+    trim: true
   },
   store: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Store'
+    type: mongoose.Schema.ObjectId,
+    ref: 'Store',
+    required: true
   },
   owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: true
   }
 });
 
-dishSchema.virtual('mealSets', {
-  ref: 'MealSet',
-  localField: '_id',
-  foreignField: 'dish'
+// Static method to get avg of course tuitions
+DishSchema.statics.getAverageCost = async function (storeId) {
+  const obj = await this.aggregate([
+    {
+      $match: { store: storeId }
+    },
+    {
+      $group: {
+        _id: '$store',
+        averageCost: { $avg: '$price' }
+      }
+    }
+  ]);
+
+  try {
+    await this.model('Store').findByIdAndUpdate(storeId, {
+      averageCost: Math.ceil(obj[0].averageCost / 10) * 10
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Call getAverageCost after save
+DishSchema.post('save', async function () {
+  await this.constructor.getAverageCost(this.store);
 });
 
-const Dish = mongoose.model('Dish', dishSchema);
+// Call getAverageCost after remove
+DishSchema.post('remove', async function () {
+  await this.constructor.getAverageCost(this.store);
+});
+
+const Dish = mongoose.model('Dish', DishSchema);
 module.exports = Dish;

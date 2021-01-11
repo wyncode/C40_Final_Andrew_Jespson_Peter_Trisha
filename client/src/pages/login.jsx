@@ -49,10 +49,10 @@ const Login = ({ history }) => {
       sessionStorage.setItem('user', response.data);
       if (currentUser.role === 'chef') {
         history.push('/store');
-      } else if (currentUser.role) {
-        history.push('/dashboard');
+      } else {
+        history.push('/');
       }
-      history.push('/shop');
+      history.push('/');
     } catch (error) {
       swal(`Oops!`, 'Something went wrong.');
     }

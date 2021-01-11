@@ -1,46 +1,121 @@
 import React, { useState, useContext } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-import { AppContext } from '../context/AppContext';
+import { AppContext } from '../../context/AppContext';
+import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
+import { Link } from '@material-ui/core/Link';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 import swal from 'sweetalert';
-import Dish from '../server/db/models/dish';
 
-const dishForm = () => {
-  const [dish, setDish] = useState(null);
-  const { setLoading } = useContext(AppContext);
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  }
+}));
+
+const DishForm = ({ history }) => {
+  const classes = useStyles();
+
+  const [dish, setDish] = useState('');
   const handleChange = (e) => {
     setDish({ ...dish, [e.target.name]: e.target.value });
   };
   const handleDishSubmission = async (e) => {
     const form = e.target;
-    setLoading(true);
     e.preventDefault();
     try {
       const response = await axios({
         method: 'POST',
-        url: '/api/dish',
+        url: '/api/dishes',
         withCredentials: true,
-        data: Dish
+        data: dish
       });
       swal('New Meal!', 'Your meal has been added', 'success');
-      setDish(null);
-      setLoading(false);
-      form.reset();
+      setDish(response.data);
+      history.push('/dishimages');
     } catch (error) {
       swal('Oops', 'Something went wrong');
     }
   };
   return (
-    <Container>
-      <Form onSubmit={handleDishSubmission}>
-        <Form.Group controlId="mealReservation">
-          <Form.Label>Due Date</Form.Label>
-        </Form.Group>
-        <Form.Group controlId="">
-          <Button type=""></Button>
-        </Form.Group>
-      </Form>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <form
+          className={classes.form}
+          onSubmit={handleDishSubmission}
+          noValidate
+        >
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="dishName"
+            label="dishName"
+            name="dishName"
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="price"
+            label="price"
+            name="price"
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="specialDescription"
+            label="specialDescription"
+            name="specialDescription"
+            onChange={handleChange}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Submit
+          </Button>
+        </form>
+      </div>
     </Container>
   );
 };
-export default dishForm;
+export default DishForm;

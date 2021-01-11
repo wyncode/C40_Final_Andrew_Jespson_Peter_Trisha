@@ -16,19 +16,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://home-cookin.org/">
-//         Home Cookin'
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -263,28 +250,9 @@ const UserRegister = ({ history }) => {
               </Link>
             </Grid>
           </Grid>
-          {/* <Grid container justify="space-evenly">
-            <Grid item>
-              <Link href="/chef-register" variant="body1">
-                Are you a Chef? Register here
-              </Link>
-            </Grid>
-          </Grid> */}
         </form>
       </div>
-      {/* <Box mt={3}>
-        <Copyright />
-      </Box> */}
     </Container>
-    // <div>
-    //   <form onSubmit={handleLogin}>
-    //     <input
-    //       id="chef"
-    //       type="chef"
-    //       placeholder="type False"
-    //       name="chef"
-    //       onChange={handleChange}
-    //     />
   );
 };
 

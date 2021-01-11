@@ -9,9 +9,11 @@ export const AppContextProvider = ({ children }) => {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [store, setStore] = useState([]);
+  const [stores, setStores] = useState([]);
   const history = useHistory();
 
   const user = sessionStorage.getItem('user');
+  const currentStore = sessionStorage.getItem('currentStore');
 
   useEffect(() => {
     if (user && !currentUser) {
@@ -26,6 +28,20 @@ export const AppContextProvider = ({ children }) => {
     }
   }, [currentUser, user]);
 
+  useEffect(() => {
+    if (currentStore && !store) {
+      axios
+        .get(`/api/stores/${currentStore.id}`)
+        .then(({ data }) => {
+          setStore(data);
+          console.log(data);
+        })
+        .catch((err) => {
+          swal('Oops!', err.toString());
+        });
+    }
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -34,7 +50,9 @@ export const AppContextProvider = ({ children }) => {
         loading,
         setLoading,
         store,
-        setStore
+        setStore,
+        stores,
+        setStores
       }}
     >
       {children}
