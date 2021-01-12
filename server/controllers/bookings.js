@@ -15,6 +15,15 @@ exports.postBooking = async (req, res) => {
   }
 };
 
+exports.getAllBooking = async (req, res) => {
+  try {
+    const bookings = await Booking.find({ store: req.user.chefStore });
+    res.json(bookings);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 /* Allow a user to view or get a specific booking */
 exports.getSpecificBooking = async (req, res) => {
   try {

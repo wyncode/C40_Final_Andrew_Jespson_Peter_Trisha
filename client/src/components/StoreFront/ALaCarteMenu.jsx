@@ -25,7 +25,7 @@ const ALaCarteMenu = () => {
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
-
+    console.log(checked);
     if (currentIndex === -1) {
       newChecked.push(value);
     } else {

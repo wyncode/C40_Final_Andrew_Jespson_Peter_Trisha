@@ -27,6 +27,7 @@ function App() {
           <Route exact path="/dishform" component={DishForm} />
           <Route exact path="/dishimages" component={DishImages} />
           <Route exact path="/mealsetform" component={MealSetForm} />
+          <Route exact path="/storeform" component={StoreForm} />
           <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute exact path="/stores/:id" component={ChefStore} />
         </Switch>
