@@ -12,10 +12,11 @@ export const AppContextProvider = ({ children }) => {
   const [stores, setStores] = useState([]);
   const history = useHistory();
 
-  const user = sessionStorage.getItem('user');
+  let user = sessionStorage.getItem('user');
   const currentStore = sessionStorage.getItem('currentStore');
 
   useEffect(() => {
+    user = sessionStorage.getItem('user');
     if (user && !currentUser) {
       axios
         .get('/api/users/me', { withCredentials: true })

@@ -4,6 +4,7 @@ import { AppContext } from '../context/AppContext';
 import StoreHeader from '../components/StoreFront/StoreHeader';
 import StoreTabPanel from '../components/StoreFront/StoreTabPanel';
 import axios from 'axios';
+import NavBar from '../components/Home/NavBar';
 
 const ChefStore = ({ match }) => {
   const { store, setStore, loading, setLoading } = useContext(AppContext);
@@ -24,6 +25,7 @@ const ChefStore = ({ match }) => {
 
   return (
     <div>
+      <NavBar />
       <StoreHeader />
       <StoreTabPanel />
     </div>

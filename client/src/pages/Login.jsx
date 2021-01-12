@@ -47,11 +47,6 @@ const Login = ({ history }) => {
       setCurrentUser(response.data);
       console.log(response.data);
       sessionStorage.setItem('user', response.data);
-      if (currentUser.role === 'chef') {
-        history.push('/store');
-      } else {
-        history.push('/');
-      }
       history.push('/');
     } catch (error) {
       swal(`Oops!`, 'Something went wrong.');
