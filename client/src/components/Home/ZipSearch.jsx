@@ -74,9 +74,6 @@ const SearchZipMiles = () => {
   const zipChange = (event) => {
     setZipcode(event.target.value);
   };
-  const distanceChange = (event) => {
-    setDistance(event.target.value);
-  };
 
   return (
     <form onSubmit={handleSubmit}>
