@@ -73,7 +73,6 @@ const SearchZipMiles = () => {
 
   const zipChange = (event) => {
     setZipcode(event.target.value);
-    storeByZipcodeandMiles();
   };
   const distanceChange = (event) => {
     setDistance(event.target.value);
