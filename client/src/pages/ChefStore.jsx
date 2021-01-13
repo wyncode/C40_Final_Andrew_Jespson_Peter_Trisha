@@ -34,7 +34,7 @@ const ChefStore = ({ match, history }) => {
     if (currentUser?.chefStore === id) {
       setIsOwner(true);
     }
-  }, [currentUser]);
+  }, [currentUser, store]);
 
   useEffect(() => {
     axios
