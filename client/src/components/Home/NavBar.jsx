@@ -117,19 +117,18 @@ export default function NavBar() {
             <MenuItem>
               <Link to="/">Home</Link>
             </MenuItem>
-            {currentUser?.chefStore && (
+            {currentUser?.chefStore ? (
               <MenuItem>
                 <Link to={`/stores/${currentUser.chefStore}`}>My Store</Link>
               </MenuItem>
-            )}
+            ) : currentUser?.chef ? (
+              <MenuItem>
+                <Link to={`/storeform`}>Create Store</Link>
+              </MenuItem>
+            ) : null}
             <MenuItem>
               <Link to="/login" onClick={handleSignOut}>
                 Logout
-              </Link>
-            </MenuItem>
-            <MenuItem>
-              <Link to="/login" onClick={handleSignOut}>
-                My Orders
               </Link>
             </MenuItem>
           </Menu>

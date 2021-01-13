@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ALaCarteMenu = () => {
+const ALaCarteMenu = ({ isOwner }) => {
   const { store, checked, setChecked, setLoading } = useContext(AppContext);
   const classes = useStyles();
   const history = useHistory();
@@ -76,33 +76,35 @@ const ALaCarteMenu = () => {
           );
         })}
       </List>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'row',
-          padding: '5px'
-        }}
-      >
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            history.push('/dishform');
+      {isOwner && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'row',
+            padding: '5px'
           }}
-          style={{ margin: '5px' }}
         >
-          Create Dish
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          style={{ margin: '5px' }}
-          onClick={deleteDishes}
-        >
-          Delete Dishes
-        </Button>
-      </div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              history.push('/dishform');
+            }}
+            style={{ margin: '5px' }}
+          >
+            Create Dish
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ margin: '5px' }}
+            onClick={deleteDishes}
+          >
+            Delete Dishes
+          </Button>
+        </div>
+      )}
     </>
   );
 };

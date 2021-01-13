@@ -79,7 +79,7 @@ const StoreTabPanel = ({ isOwner }) => {
         <AboutSection />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ALaCarteMenu />
+        <ALaCarteMenu isOwner={isOwner} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         MealSets component

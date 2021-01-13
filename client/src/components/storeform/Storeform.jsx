@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StoreForm({ history }) {
   const classes = useStyles();
-  const [updateMode, setUpdateMode] = useState(false);
   const [formData, setFormData] = useState(null);
   const { currentUserStore, setCurrentUserStore, currentUser } = useContext(
     AppContext
@@ -49,7 +48,7 @@ export default function StoreForm({ history }) {
     e.preventDefault();
     try {
       let response;
-      if (updateMode) {
+      if (!currentUser.chefStore) {
         response = await axios.post('/api/stores', formData, {
           withCredentials: true
         });
