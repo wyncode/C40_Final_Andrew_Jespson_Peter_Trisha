@@ -62,7 +62,6 @@ const Shop = () => {
         withCredentials: true
       }
     );
-    console.log(storesAddress.data);
     setStores(storesAddress.data);
   };
 

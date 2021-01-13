@@ -17,7 +17,6 @@ const getAlldishes = async (req, res, next) => {
 
 // Get a Specific Dish
 const getADish = async (req, res) => {
-  console.log('hello');
   try {
     const dish = await Dish.findById(req.params.id).populate({
       path: 'store',

@@ -52,7 +52,6 @@ exports.createUser = async (req, res) => {
  * @return {user}
  */
 exports.loginUser = async (req, res) => {
-  console.log('hello');
   const { email, password } = req.body;
   try {
     const user = await User.findByCredentials(email, password);

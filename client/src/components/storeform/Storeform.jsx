@@ -60,7 +60,6 @@ export default function StoreForm({ history }) {
           { withCredentials: true }
         );
       }
-      console.log(response.data);
       setCurrentUserStore(response.data);
       history.push(`/stores/${response.data._id}`);
     } catch (error) {

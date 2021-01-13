@@ -61,13 +61,11 @@ const SearchZipMiles = () => {
     const storesAddress = await axios.get(`/api/stores/radius/${zipcode}/15`, {
       withCredentials: true
     });
-    console.log(storesAddress.data.data);
     setStores(storesAddress.data.data);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('object');
     storeByZipcodeandMiles();
   };
 

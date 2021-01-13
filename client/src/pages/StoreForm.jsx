@@ -17,7 +17,6 @@ const StoreForm = ({ history }) => {
       const response = await axios.post('/api/stores', formData, {
         withCredentials: true
       });
-      console.log(response.data);
       setCurrentUserStore(response.data);
       history.push('/myStore');
     } catch (error) {

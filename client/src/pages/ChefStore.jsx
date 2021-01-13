@@ -7,6 +7,7 @@ import axios from 'axios';
 import NavBar from '../components/Home/NavBar';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import swal from 'sweetalert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,38 +18,61 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ChefStore = ({ match, history }) => {
-  const { store, setStore, loading, setLoading, currentUser } = useContext(
-    AppContext
-  );
+  const {
+    store,
+    setStore,
+    loading,
+    setLoading,
+    currentUser,
+    checked
+  } = useContext(AppContext);
   const { id } = match.params;
   const [isOwner, setIsOwner] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
-    console.log(currentUser);
     if (currentUser?.chefStore === id) {
       setIsOwner(true);
     }
   }, [currentUser]);
 
   useEffect(() => {
-    console.log(id);
     axios
       .get(`/api/stores/${id}`)
       .then((res) => {
         setStore(res.data);
-        console.log(res.data);
         setLoading(false);
         sessionStorage.setItem('currentStore', res.data);
       })
       .catch((e) => console.log(e));
   }, [setStore, loading, setLoading, id]);
 
+  const handleOrder = async () => {
+    try {
+      let sum = 0;
+      checked.forEach((item) => {
+        sum = sum + item.price;
+      });
+      const form = {
+        cartItems: checked,
+        serviceFee: store.serviceFee,
+        totalCost: sum + store.serviceFee,
+        store: store._id
+      };
+
+      await axios.post('/api/bookings', form, { withCredentials: true });
+      swal('Your booking has been placed!');
+      history.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={classes.root}>
       <NavBar />
       <StoreHeader />
-      <StoreTabPanel />
+      <StoreTabPanel isOwner={isOwner} />
       <div
         style={{
           display: 'flex',
@@ -66,7 +90,11 @@ const ChefStore = ({ match, history }) => {
           >
             Update Store
           </Button>
-        ) : null}
+        ) : (
+          <Button variant="contained" color="primary" onClick={handleOrder}>
+            Order
+          </Button>
+        )}
       </div>
     </div>
   );

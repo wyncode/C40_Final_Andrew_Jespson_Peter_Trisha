@@ -45,7 +45,6 @@ const Login = ({ history }) => {
     try {
       const response = await axios.post('/api/users/login', formData);
       setCurrentUser(response.data);
-      console.log(response.data);
       sessionStorage.setItem('user', response.data);
       history.push('/');
     } catch (error) {

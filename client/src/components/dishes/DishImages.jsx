@@ -12,7 +12,6 @@ const DishImages = () => {
         '/api/stores/image',
         base64EncodedImage
       );
-      console.log(response);
       //send the user to their current store
     } catch (error) {
       swal(`Oops!`, 'Something went wrong.');

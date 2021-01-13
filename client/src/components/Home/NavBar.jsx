@@ -127,6 +127,11 @@ export default function NavBar() {
                 Logout
               </Link>
             </MenuItem>
+            <MenuItem>
+              <Link to="/login" onClick={handleSignOut}>
+                My Orders
+              </Link>
+            </MenuItem>
           </Menu>
           <Typography className={classes.title} variant="h6" noWrap>
             Home Cookin'

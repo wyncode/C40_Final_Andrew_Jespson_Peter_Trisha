@@ -8,6 +8,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
+import axios from 'axios';
+import swal from 'sweetalert';
+import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,14 +22,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ALaCarteMenu = () => {
-  const { store } = useContext(AppContext);
+  const { store, checked, setChecked, setLoading } = useContext(AppContext);
   const classes = useStyles();
-  const [checked, setChecked] = useState([]);
+  const history = useHistory();
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
-    console.log(checked);
     if (currentIndex === -1) {
       newChecked.push(value);
     } else {
@@ -34,32 +37,73 @@ const ALaCarteMenu = () => {
     setChecked(newChecked);
   };
 
+  const deleteDishes = async () => {
+    try {
+      checked.forEach(async (item) => {
+        await axios.delete(`/api/dishes/${item._id}`);
+      });
+      setLoading(true);
+      swal('Your items have been deleted');
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <List className={classes.root}>
-      {store.serviceMenu.map((dish) => {
-        const dishId = `checkbox-list-secondary-label-${dish}`;
-        return (
-          <ListItem key={dish} button>
-            <ListItemAvatar>
-              <Avatar />
-            </ListItemAvatar>
-            <ListItemText
-              id={dishId}
-              primary={`${dish?.dishName}`}
-              secondary={`${dish?.price}`}
-            />
-            <ListItemSecondaryAction>
-              <Checkbox
-                edge="end"
-                onChange={handleToggle(dish)}
-                checked={checked.indexOf(dish) !== -1}
-                inputProps={{ 'aria-labelledby': dishId }}
+    <>
+      <List className={classes.root}>
+        {store.serviceMenu.map((dish) => {
+          const dishId = `checkbox-list-secondary-label-${dish}`;
+          return (
+            <ListItem key={dish} button>
+              <ListItemAvatar>
+                <Avatar />
+              </ListItemAvatar>
+              <ListItemText
+                id={dishId}
+                primary={`${dish?.dishName}`}
+                secondary={`${dish?.price}`}
               />
-            </ListItemSecondaryAction>
-          </ListItem>
-        );
-      })}
-    </List>
+              <ListItemSecondaryAction>
+                <Checkbox
+                  edge="end"
+                  onChange={handleToggle(dish)}
+                  checked={checked.indexOf(dish) !== -1}
+                  inputProps={{ 'aria-labelledby': dishId }}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+          );
+        })}
+      </List>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'row',
+          padding: '5px'
+        }}
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            history.push('/dishform');
+          }}
+          style={{ margin: '5px' }}
+        >
+          Create Dish
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          style={{ margin: '5px' }}
+          onClick={deleteDishes}
+        >
+          Delete Dishes
+        </Button>
+      </div>
+    </>
   );
 };
 

@@ -11,6 +11,7 @@ export const AppContextProvider = ({ children }) => {
   const [store, setStore] = useState([]);
   const [stores, setStores] = useState([]);
   const [currentUserStore, setCurrentUserStore] = useState(null);
+  const [checked, setChecked] = useState([]);
   const history = useHistory();
 
   let user = sessionStorage.getItem('user');
@@ -56,7 +57,9 @@ export const AppContextProvider = ({ children }) => {
         stores,
         setStores,
         currentUserStore,
-        setCurrentUserStore
+        setCurrentUserStore,
+        checked,
+        setChecked
       }}
     >
       {children}

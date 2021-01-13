@@ -11,18 +11,9 @@ const bookingSchema = new Schema(
     isPrefixed: {
       type: Boolean
     },
-    cartItems: [
-      {
-        dishItem: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Dish',
-          default: null
-        },
-        numOfDishItem: {
-          type: Number
-        }
-      }
-    ],
+    cartItems: {
+      type: Array
+    },
     serviceFee: {
       type: Number
     },
@@ -38,9 +29,18 @@ const bookingSchema = new Schema(
     addressConfirmation: {
       type: String
     },
+    bookerPhone: {
+      type: String
+    },
+    bookerEmail: {
+      type: String
+    },
     booker: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
+    },
+    bookerName: {
+      type: String
     }
   },
   { timestamps: true }

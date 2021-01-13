@@ -12,7 +12,6 @@ const StorePic = ({ history }) => {
         '/api/stores/DishImages',
         base64EncodedImage
       );
-      console.log(response);
       history.push('/dishform');
       //send the user to their current store
     } catch (error) {

@@ -4,7 +4,6 @@ const MealSet = require('../db/models/mealSet'),
 const mongoose = require('mongoose');
 
 exports.createMealSet = async (req, res) => {
-  console.log('Mealset Whisper');
   try {
     const mealSet = new MealSet({
       ...req.body,
