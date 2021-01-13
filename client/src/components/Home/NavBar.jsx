@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar() {
   const classes = useStyles();
-  const { setCurrentUser } = useContext(AppContext);
+  const { currentUser, setCurrentUser } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const history = useHistory();
   const open = Boolean(anchorEl);
@@ -117,9 +117,19 @@ export default function NavBar() {
             <MenuItem>
               <Link to="/">Home</Link>
             </MenuItem>
+            {currentUser?.chefStore && (
+              <MenuItem>
+                <Link to={`/stores/${currentUser.chefStore}`}>My Store</Link>
+              </MenuItem>
+            )}
             <MenuItem>
               <Link to="/login" onClick={handleSignOut}>
                 Logout
+              </Link>
+            </MenuItem>
+            <MenuItem>
+              <Link to="/login" onClick={handleSignOut}>
+                My Orders
               </Link>
             </MenuItem>
           </Menu>

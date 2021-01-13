@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DishForm = ({ history }) => {
+  const { currentUser } = useContext(AppContext);
   const classes = useStyles();
 
   const [dish, setDish] = useState('');
@@ -54,7 +55,7 @@ const DishForm = ({ history }) => {
       });
       swal('New Meal!', 'Your meal has been added', 'success');
       setDish(response.data);
-      history.push('/dishimages');
+      history.push(`/stores/${currentUser.chefStore}`);
     } catch (error) {
       swal('Oops', 'Something went wrong');
     }

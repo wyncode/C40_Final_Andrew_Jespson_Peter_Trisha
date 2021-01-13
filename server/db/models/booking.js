@@ -5,36 +5,15 @@ const bookingSchema = new Schema(
   {
     store: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Store'
-    },
-    isPrefixed: {
-      type: Boolean,
+      ref: 'Store',
       required: true
     },
-    cartItems: [
-      {
-        dishItem: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Dish',
-          default: null
-        },
-        numOfDishItem: {
-          type: Number
-        }
-      }
-    ],
-    mealSetCart: [
-      {
-        mealSetSelection: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'MealSet'
-        },
-        numOfAdditionalPeople: {
-          type: Number,
-          default: 0
-        }
-      }
-    ],
+    isPrefixed: {
+      type: Boolean
+    },
+    cartItems: {
+      type: Array
+    },
     serviceFee: {
       type: Number
     },
@@ -42,24 +21,30 @@ const bookingSchema = new Schema(
       type: Number
     },
     bookingDate: {
-      type: Number,
-      required: true
+      type: Number
     },
     bookingTime: {
-      type: Number,
-      required: true
+      type: Number
     },
     addressConfirmation: {
-      type: String,
-      required: true
+      type: String
+    },
+    bookerPhone: {
+      type: String
+    },
+    bookerEmail: {
+      type: String
     },
     booker: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
+    },
+    bookerName: {
+      type: String
     }
   },
   { timestamps: true }
 );
 
-const booking = mongoose.model('Booking', bookingSchema);
-module.exports = bookingSchema;
+const Booking = mongoose.model('Booking', bookingSchema);
+module.exports = Booking;

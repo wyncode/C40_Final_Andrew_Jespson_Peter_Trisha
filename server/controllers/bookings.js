@@ -3,15 +3,27 @@ const Booking = require('../db/models/booking'),
 
 /* Allow a customer to post a booking */
 exports.postBooking = async (req, res) => {
-  console.log('hello');
   try {
     const booking = await new Booking({
       ...req.body,
-      booker: req.user._id
+      booker: req.user._id,
+      bookerName: req.user.firstName,
+      bookerPhone: req.user.phoneNumber,
+      bookerEmail: req.user.email
     });
     await booking.save();
+    res.json(booking);
   } catch (e) {
     res.status(400).json({ error: e.toString() });
+  }
+};
+
+exports.getAllBooking = async (req, res) => {
+  try {
+    const bookings = await Booking.find({ store: req.user.chefStore });
+    res.json(bookings);
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -36,8 +48,7 @@ exports.getSpecificBooking = async (req, res) => {
 exports.deleteBooking = async (req, res) => {
   try {
     const booking = await Booking.findOneAndDelete({
-      _id: req.params.id,
-      booker: req.user._id
+      _id: req.params.id
     });
     if (!booking) return res.status(404).json({ error: 'booking not found' });
     res.json({ message: 'booking has been cancelled' });

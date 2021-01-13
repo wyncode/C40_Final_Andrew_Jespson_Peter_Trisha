@@ -45,7 +45,6 @@ const Login = ({ history }) => {
     try {
       const response = await axios.post('/api/users/login', formData);
       setCurrentUser(response.data);
-      console.log(response.data);
       sessionStorage.setItem('user', response.data);
       history.push('/');
     } catch (error) {
@@ -102,7 +101,7 @@ const Login = ({ history }) => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/user-register" variant="body2">
+              <Link href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

@@ -23,7 +23,6 @@ exports.createStore = async (req, res) => {
 
 /* Get current store for logged in chef */
 exports.getMyStore = async (req, res) => {
-  console.log('hello worlds');
   try {
     await req.user.populate({ path: 'store' }).execPopulate();
     res.json(req.user.store);
@@ -130,7 +129,7 @@ exports.addMediaStore = async (req, res) => {
 exports.getAllStores = async (req, res) => {
   const request = req.body;
   let queryString = querystring.stringify(request);
-  console.log(queryString);
+
   const stores = await Store.find({
     $text: {
       $search: queryString,
@@ -138,6 +137,6 @@ exports.getAllStores = async (req, res) => {
       $diacriticSensitive: true
     }
   });
-  console.log(stores);
+
   res.json(stores);
 };

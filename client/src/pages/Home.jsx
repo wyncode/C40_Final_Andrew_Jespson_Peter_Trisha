@@ -19,7 +19,6 @@ const Home = () => {
         withCredentials: true
       }
     );
-    console.log(storesAddress.data.data);
     setStores(storesAddress.data.data);
   };
 

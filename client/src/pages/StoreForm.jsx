@@ -5,7 +5,7 @@ import swal from 'sweetalert';
 
 const StoreForm = ({ history }) => {
   const [formData, setFormData] = useState(null);
-  const { currentUserStore, setcurrentUserStore } = useContext(AppContext);
+  const { currentUserStore, setCurrentUserStore } = useContext(AppContext);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,11 +14,13 @@ const StoreForm = ({ history }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/stores', formData);
-      setcurrentUserStore(response.data);
+      const response = await axios.post('/api/stores', formData, {
+        withCredentials: true
+      });
+      setCurrentUserStore(response.data);
       history.push('/myStore');
     } catch (error) {
-      swal(`Oops!`, 'Something went wrong.');
+      console.log(error);
     }
   };
 

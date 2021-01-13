@@ -35,9 +35,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StoreForm({ history }) {
   const classes = useStyles();
-
+  const [updateMode, setUpdateMode] = useState(false);
   const [formData, setFormData] = useState(null);
-  const { currentUserStore, setcurrentUserStore } = useContext(AppContext);
+  const { currentUserStore, setCurrentUserStore, currentUser } = useContext(
+    AppContext
+  );
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -46,11 +48,22 @@ export default function StoreForm({ history }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/stores', formData);
-      setcurrentUserStore(response.data);
-      history.push('/storepic');
+      let response;
+      if (updateMode) {
+        response = await axios.post('/api/stores', formData, {
+          withCredentials: true
+        });
+      } else {
+        response = await axios.patch(
+          `/api/stores/${currentUser.chefStore}`,
+          formData,
+          { withCredentials: true }
+        );
+      }
+      setCurrentUserStore(response.data);
+      history.push(`/stores/${response.data._id}`);
     } catch (error) {
-      swal(`Oops!`, 'Something went wrong.');
+      console.log(error);
     }
   };
 

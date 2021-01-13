@@ -12,12 +12,10 @@ const AboutSection = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    console.log(id);
     axios
       .get(`/api/stores/${id}`)
       .then((res) => {
         setStore(res.data);
-        console.log(res.data);
         setLoading(false);
         sessionStorage.setItem('currentStore', res.data);
       })

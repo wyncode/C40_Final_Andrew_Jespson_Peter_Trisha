@@ -56,7 +56,6 @@ const UserRegister = ({ history }) => {
   };
 
   const handleSubmit = async (e) => {
-    console.log(formData);
     e.preventDefault();
     try {
       const response = await axios.post('/api/users/register', formData);

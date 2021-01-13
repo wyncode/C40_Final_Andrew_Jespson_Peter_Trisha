@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import ALaCarteMenu from './ALaCarteMenu';
 import AboutSection from './AboutSection';
+import Bookings from './Bookings';
 
 let TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const StoreTabPanel = () => {
+const StoreTabPanel = ({ isOwner }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -64,13 +65,14 @@ const StoreTabPanel = () => {
           value={value}
           onChange={handleChange}
           indicatorColor="primary"
+          centered
           textColor="primary"
-          variant="scrollable"
           aria-label="Store Tab Panel"
         >
           <Tab label="ABOUT" {...a11yProps(0)} />
           <Tab label="A LA CARTE" {...a11yProps(1)} />
           <Tab label="MEALSETS" {...a11yProps(2)} />
+          {isOwner && <Tab label="BOOKINGS" {...a11yProps(3)} />}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -82,6 +84,11 @@ const StoreTabPanel = () => {
       <TabPanel value={value} index={2}>
         MealSets component
       </TabPanel>
+      {isOwner && (
+        <TabPanel value={value} index={3}>
+          <Bookings />
+        </TabPanel>
+      )}
     </div>
   );
 };
